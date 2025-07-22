@@ -1,3 +1,7 @@
+## 0.0.1-alpha6
+
+- Split package.
+
 ## 0.0.1-alpha4
 
 - Update build result import.
