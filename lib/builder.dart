@@ -355,7 +355,7 @@ class MiniScriptWrapperGenerator extends Generator {
         '      return IntrinsicResult(f(context, partialResult));',
       );
       buffer.writeln('    };');
-      buffer.writeln('    return fn.valFunction;');
+      buffer.writeln('    return fn.getFunc();');
       buffer.writeln('  }');
       buffer.writeln();
     }

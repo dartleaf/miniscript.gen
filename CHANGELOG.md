@@ -1,3 +1,7 @@
+## 0.0.1-alpha8
+
+- Fix intrinsic callback bug.
+
 ## 0.0.1-alpha7
 
 - Bump version.
