@@ -1,0 +1,21 @@
+targets:
+  $default:
+    builders:
+      miniscriptgen|miniscript_wrapper_generator:
+        enabled: true
+        generate_for:
+          - lib/**
+          - example/**
+          - test/**
+        options:
+          output_directory: "lib/generated"
+          generate_setup_function: true
+
+builders:
+  miniscript_wrapper_generator:
+    import: "package:miniscriptgen/builder.dart"
+    builder_factories: ["miniScriptWrapperBuilder"]
+    build_extensions: { ".dart": [".miniscript.dart"] }
+    auto_apply: dependents
+    build_to: source
+    applies_builders: ["source_gen|combining_builder"]
