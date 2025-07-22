@@ -7,13 +7,10 @@
 // Generated MiniScript wrappers
 // This file is auto-generated. Do not edit manually.
 
-import "package:miniscript/miniscript_types/value.dart";
-import "package:miniscript/miniscript_types/value_map.dart";
-import "package:miniscript/miniscript_types/value_string.dart";
-import "package:miniscript/miniscript_types/value_null.dart";
-
-import "package:miniscriptgen/src/base_wrapper.dart";
-import "package:miniscriptgen/src/cache.dart";
+import "package:miniscript/miniscript_intrinsics/intrinsic.dart";
+import "package:miniscript/miniscript_intrinsics/intrinsic_result.dart";
+import "package:miniscript/miniscript_tac/context.dart";
+import "package:miniscriptgen/miniscriptgen.dart";
 
 import "game.dart";
 import "player.dart";
@@ -21,7 +18,7 @@ import "weapon.dart";
 
 /// Generated wrapper for Game
 class GameWrapper extends BaseWrapper<Game> {
-  GameWrapper(Game dartObject) : super(dartObject);
+  GameWrapper(super.dartObject);
 
   @override
   List<String> getPropertyNames() {
@@ -65,41 +62,41 @@ class GameWrapper extends BaseWrapper<Game> {
   Value? getProperty(String propertyName) {
     switch (propertyName) {
       case "gameState":
-        return dartToMiniScript(dartValue.gameState);
+        return ConversionUtils.dartToValue(dartValue.gameState);
       case "playerCount":
-        return dartToMiniScript(dartValue.playerCount);
+        return ConversionUtils.dartToValue(dartValue.playerCount);
       case "weaponCount":
-        return dartToMiniScript(dartValue.weaponCount);
+        return ConversionUtils.dartToValue(dartValue.weaponCount);
       case "totalGameTime":
-        return dartToMiniScript(dartValue.totalGameTime);
+        return ConversionUtils.dartToValue(dartValue.totalGameTime);
       case "progressPercentage":
-        return dartToMiniScript(dartValue.progressPercentage);
+        return ConversionUtils.dartToValue(dartValue.progressPercentage);
       case "isComplete":
-        return dartToMiniScript(dartValue.isComplete);
+        return ConversionUtils.dartToValue(dartValue.isComplete);
       case "title":
-        return dartToMiniScript(dartValue.title);
+        return ConversionUtils.dartToValue(dartValue.title);
       case "version":
-        return dartToMiniScript(dartValue.version);
+        return ConversionUtils.dartToValue(dartValue.version);
       case "level":
-        return dartToMiniScript(dartValue.level);
+        return ConversionUtils.dartToValue(dartValue.level);
       case "maxLevel":
-        return dartToMiniScript(dartValue.maxLevel);
+        return ConversionUtils.dartToValue(dartValue.maxLevel);
       case "isRunning":
-        return dartToMiniScript(dartValue.isRunning);
+        return ConversionUtils.dartToValue(dartValue.isRunning);
       case "isPaused":
-        return dartToMiniScript(dartValue.isPaused);
+        return ConversionUtils.dartToValue(dartValue.isPaused);
       case "players":
-        return dartToMiniScript(dartValue.players);
+        return ConversionUtils.dartToValue(dartValue.players);
       case "weapons":
-        return dartToMiniScript(dartValue.weapons);
+        return ConversionUtils.dartToValue(dartValue.weapons);
       case "settings":
-        return dartToMiniScript(dartValue.settings);
+        return ConversionUtils.dartToValue(dartValue.settings);
       case "highScores":
-        return dartToMiniScript(dartValue.highScores);
+        return ConversionUtils.dartToValue(dartValue.highScores);
       case "sessionId":
-        return dartToMiniScript(dartValue.sessionId);
+        return ConversionUtils.dartToValue(dartValue.sessionId);
       case "startTime":
-        return dartToMiniScript(dartValue.startTime);
+        return ConversionUtils.dartToValue(dartValue.startTime);
       case "startGame":
         return _createStartGameMethod();
       case "pauseGame":
@@ -138,31 +135,29 @@ class GameWrapper extends BaseWrapper<Game> {
     switch (propertyName) {
       case "title":
         try {
-          var dartValue = miniScriptToDart(value);
-          if (dartValue is String || dartValue == null) {
-            this.dartValue.title = dartValue;
-            return true;
-          }
+          var dartValue = ConversionUtils.valueToDart(value);
+          this.dartValue.title =
+              ConversionUtils.hardConvert<String>(dartValue) as String;
+          return true;
         } catch (e) {
           // Type conversion failed
         }
         return false;
       case "version":
         try {
-          var dartValue = miniScriptToDart(value);
-          if (dartValue is String || dartValue == null) {
-            this.dartValue.version = dartValue;
-            return true;
-          }
+          var dartValue = ConversionUtils.valueToDart(value);
+          this.dartValue.version =
+              ConversionUtils.hardConvert<String>(dartValue) as String;
+          return true;
         } catch (e) {
           // Type conversion failed
         }
         return false;
       case "level":
         try {
-          var dartValue = miniScriptToDart(value);
-          if (dartValue is num || dartValue == null) {
-            this.dartValue.level = dartValue?.toInt();
+          var dartValue = ConversionUtils.valueToDart(value);
+          if (dartValue is num) {
+            this.dartValue.level = dartValue.toInt();
             return true;
           }
         } catch (e) {
@@ -171,9 +166,9 @@ class GameWrapper extends BaseWrapper<Game> {
         return false;
       case "maxLevel":
         try {
-          var dartValue = miniScriptToDart(value);
-          if (dartValue is num || dartValue == null) {
-            this.dartValue.maxLevel = dartValue?.toInt();
+          var dartValue = ConversionUtils.valueToDart(value);
+          if (dartValue is num) {
+            this.dartValue.maxLevel = dartValue.toInt();
             return true;
           }
         } catch (e) {
@@ -182,66 +177,56 @@ class GameWrapper extends BaseWrapper<Game> {
         return false;
       case "isRunning":
         try {
-          var dartValue = miniScriptToDart(value);
-          if (dartValue is bool || dartValue == null) {
-            this.dartValue.isRunning = dartValue;
-            return true;
-          }
+          var dartValue = ConversionUtils.valueToDart(value);
+          this.dartValue.isRunning =
+              ConversionUtils.hardConvert<bool>(dartValue) as bool;
+          return true;
         } catch (e) {
           // Type conversion failed
         }
         return false;
       case "isPaused":
         try {
-          var dartValue = miniScriptToDart(value);
-          if (dartValue is bool || dartValue == null) {
-            this.dartValue.isPaused = dartValue;
-            return true;
-          }
+          var dartValue = ConversionUtils.valueToDart(value);
+          this.dartValue.isPaused =
+              ConversionUtils.hardConvert<bool>(dartValue) as bool;
+          return true;
         } catch (e) {
           // Type conversion failed
         }
         return false;
       case "players":
         try {
-          var dartValue = miniScriptToDart(value);
-          if (dartValue is List<Player> || dartValue == null) {
-            this.dartValue.players = dartValue;
-            return true;
-          }
+          var dartValue = ConversionUtils.valueToDart(value);
+          this.dartValue.players = (dartValue).cast<Player>();
+          return true;
         } catch (e) {
           // Type conversion failed
         }
         return false;
       case "weapons":
         try {
-          var dartValue = miniScriptToDart(value);
-          if (dartValue is List<Weapon> || dartValue == null) {
-            this.dartValue.weapons = dartValue;
-            return true;
-          }
+          var dartValue = ConversionUtils.valueToDart(value);
+          this.dartValue.weapons = (dartValue).cast<Weapon>();
+          return true;
         } catch (e) {
           // Type conversion failed
         }
         return false;
       case "settings":
         try {
-          var dartValue = miniScriptToDart(value);
-          if (dartValue is Map<String, dynamic> || dartValue == null) {
-            this.dartValue.settings = dartValue;
-            return true;
-          }
+          var dartValue = ConversionUtils.valueToDart(value);
+          this.dartValue.settings = (dartValue).cast<String, dynamic>();
+          return true;
         } catch (e) {
           // Type conversion failed
         }
         return false;
       case "highScores":
         try {
-          var dartValue = miniScriptToDart(value);
-          if (dartValue is Map<String, int> || dartValue == null) {
-            this.dartValue.highScores = dartValue;
-            return true;
-          }
+          var dartValue = ConversionUtils.valueToDart(value);
+          this.dartValue.highScores = (dartValue).cast<String, int>();
+          return true;
         } catch (e) {
           // Type conversion failed
         }
@@ -253,408 +238,260 @@ class GameWrapper extends BaseWrapper<Game> {
 
   /// Creates a MiniScript callable method for startGame
   Value _createStartGameMethod() {
-    var methodMap = ValMap();
-    methodMap.userData = this;
-    methodMap.evalOverride = (key, valuePointer) {
-      if (key is ValString && key.value == "call") {
-        valuePointer.value = _startGameCallMethod();
-        return true;
-      }
-      return false;
-    };
-    return methodMap;
-  }
+    final fn = Intrinsic.create("_\$");
+    fn.name = "startGame";
+    Value? f(Context context, [IntrinsicResult? partialResult]) {
+      dartValue.startGame();
+      return ValNull.instance;
+    }
 
-  /// Callable method implementation for startGame
-  Value _startGameCallMethod() {
-    var callableMap = ValMap();
-    callableMap.userData = this;
-    callableMap.evalOverride = (key, valuePointer) {
-      if (key is ValString && key.value == "invoke") {
-        dartValue.startGame();
-        valuePointer.value = ValNull.instance;
-        return true;
-      }
-      return false;
+    fn.code = (Context context, [IntrinsicResult? partialResult]) {
+      return IntrinsicResult(f(context, partialResult));
     };
-    return callableMap;
+    return fn.valFunction;
   }
 
   /// Creates a MiniScript callable method for pauseGame
   Value _createPauseGameMethod() {
-    var methodMap = ValMap();
-    methodMap.userData = this;
-    methodMap.evalOverride = (key, valuePointer) {
-      if (key is ValString && key.value == "call") {
-        valuePointer.value = _pauseGameCallMethod();
-        return true;
-      }
-      return false;
-    };
-    return methodMap;
-  }
+    final fn = Intrinsic.create("_\$");
+    fn.name = "pauseGame";
+    Value? f(Context context, [IntrinsicResult? partialResult]) {
+      dartValue.pauseGame();
+      return ValNull.instance;
+    }
 
-  /// Callable method implementation for pauseGame
-  Value _pauseGameCallMethod() {
-    var callableMap = ValMap();
-    callableMap.userData = this;
-    callableMap.evalOverride = (key, valuePointer) {
-      if (key is ValString && key.value == "invoke") {
-        dartValue.pauseGame();
-        valuePointer.value = ValNull.instance;
-        return true;
-      }
-      return false;
+    fn.code = (Context context, [IntrinsicResult? partialResult]) {
+      return IntrinsicResult(f(context, partialResult));
     };
-    return callableMap;
+    return fn.valFunction;
   }
 
   /// Creates a MiniScript callable method for stopGame
   Value _createStopGameMethod() {
-    var methodMap = ValMap();
-    methodMap.userData = this;
-    methodMap.evalOverride = (key, valuePointer) {
-      if (key is ValString && key.value == "call") {
-        valuePointer.value = _stopGameCallMethod();
-        return true;
-      }
-      return false;
-    };
-    return methodMap;
-  }
+    final fn = Intrinsic.create("_\$");
+    fn.name = "stopGame";
+    Value? f(Context context, [IntrinsicResult? partialResult]) {
+      dartValue.stopGame();
+      return ValNull.instance;
+    }
 
-  /// Callable method implementation for stopGame
-  Value _stopGameCallMethod() {
-    var callableMap = ValMap();
-    callableMap.userData = this;
-    callableMap.evalOverride = (key, valuePointer) {
-      if (key is ValString && key.value == "invoke") {
-        dartValue.stopGame();
-        valuePointer.value = ValNull.instance;
-        return true;
-      }
-      return false;
+    fn.code = (Context context, [IntrinsicResult? partialResult]) {
+      return IntrinsicResult(f(context, partialResult));
     };
-    return callableMap;
+    return fn.valFunction;
   }
 
   /// Creates a MiniScript callable method for addPlayer
   Value _createAddPlayerMethod() {
-    var methodMap = ValMap();
-    methodMap.userData = this;
-    methodMap.evalOverride = (key, valuePointer) {
-      if (key is ValString && key.value == "call") {
-        valuePointer.value = _addPlayerCallMethod();
-        return true;
+    final fn = Intrinsic.create("_\$");
+    fn.name = "addPlayer";
+    fn.addParam("player");
+    Value? f(Context context, [IntrinsicResult? partialResult]) {
+      var player = ConversionUtils.valueToDart(context.getLocal("player"));
+      if (player == null) {
+        return ValString("Missing required argument: player");
       }
-      return false;
-    };
-    return methodMap;
-  }
+      dartValue.addPlayer(player);
+      return ValNull.instance;
+    }
 
-  /// Callable method implementation for addPlayer
-  Value _addPlayerCallMethod() {
-    var callableMap = ValMap();
-    callableMap.userData = this;
-    callableMap.evalOverride = (key, valuePointer) {
-      if (key is ValString && key.value == "invoke") {
-        // TODO: Handle method parameters
-        valuePointer.value = ValString("Method addPlayer called");
-        return true;
-      }
-      return false;
+    fn.code = (Context context, [IntrinsicResult? partialResult]) {
+      return IntrinsicResult(f(context, partialResult));
     };
-    return callableMap;
+    return fn.valFunction;
   }
 
   /// Creates a MiniScript callable method for removePlayer
   Value _createRemovePlayerMethod() {
-    var methodMap = ValMap();
-    methodMap.userData = this;
-    methodMap.evalOverride = (key, valuePointer) {
-      if (key is ValString && key.value == "call") {
-        valuePointer.value = _removePlayerCallMethod();
-        return true;
+    final fn = Intrinsic.create("_\$");
+    fn.name = "removePlayer";
+    fn.addParam("playerName");
+    Value? f(Context context, [IntrinsicResult? partialResult]) {
+      var playerName =
+          ConversionUtils.valueToDart(context.getLocal("playerName"));
+      if (playerName == null) {
+        return ValString("Missing required argument: playerName");
       }
-      return false;
-    };
-    return methodMap;
-  }
+      var result = dartValue.removePlayer(playerName);
+      return ConversionUtils.dartToValue(result);
+    }
 
-  /// Callable method implementation for removePlayer
-  Value _removePlayerCallMethod() {
-    var callableMap = ValMap();
-    callableMap.userData = this;
-    callableMap.evalOverride = (key, valuePointer) {
-      if (key is ValString && key.value == "invoke") {
-        // TODO: Handle method parameters
-        valuePointer.value = ValString("Method removePlayer called");
-        return true;
-      }
-      return false;
+    fn.code = (Context context, [IntrinsicResult? partialResult]) {
+      return IntrinsicResult(f(context, partialResult));
     };
-    return callableMap;
+    return fn.valFunction;
   }
 
   /// Creates a MiniScript callable method for addWeapon
   Value _createAddWeaponMethod() {
-    var methodMap = ValMap();
-    methodMap.userData = this;
-    methodMap.evalOverride = (key, valuePointer) {
-      if (key is ValString && key.value == "call") {
-        valuePointer.value = _addWeaponCallMethod();
-        return true;
+    final fn = Intrinsic.create("_\$");
+    fn.name = "addWeapon";
+    fn.addParam("weapon");
+    Value? f(Context context, [IntrinsicResult? partialResult]) {
+      var weapon = ConversionUtils.valueToDart(context.getLocal("weapon"));
+      if (weapon == null) {
+        return ValString("Missing required argument: weapon");
       }
-      return false;
-    };
-    return methodMap;
-  }
+      dartValue.addWeapon(weapon);
+      return ValNull.instance;
+    }
 
-  /// Callable method implementation for addWeapon
-  Value _addWeaponCallMethod() {
-    var callableMap = ValMap();
-    callableMap.userData = this;
-    callableMap.evalOverride = (key, valuePointer) {
-      if (key is ValString && key.value == "invoke") {
-        // TODO: Handle method parameters
-        valuePointer.value = ValString("Method addWeapon called");
-        return true;
-      }
-      return false;
+    fn.code = (Context context, [IntrinsicResult? partialResult]) {
+      return IntrinsicResult(f(context, partialResult));
     };
-    return callableMap;
+    return fn.valFunction;
   }
 
   /// Creates a MiniScript callable method for findPlayer
   Value _createFindPlayerMethod() {
-    var methodMap = ValMap();
-    methodMap.userData = this;
-    methodMap.evalOverride = (key, valuePointer) {
-      if (key is ValString && key.value == "call") {
-        valuePointer.value = _findPlayerCallMethod();
-        return true;
+    final fn = Intrinsic.create("_\$");
+    fn.name = "findPlayer";
+    fn.addParam("name");
+    Value? f(Context context, [IntrinsicResult? partialResult]) {
+      var name = ConversionUtils.valueToDart(context.getLocal("name"));
+      if (name == null) {
+        return ValString("Missing required argument: name");
       }
-      return false;
-    };
-    return methodMap;
-  }
+      var result = dartValue.findPlayer(name);
+      return ConversionUtils.dartToValue(result);
+    }
 
-  /// Callable method implementation for findPlayer
-  Value _findPlayerCallMethod() {
-    var callableMap = ValMap();
-    callableMap.userData = this;
-    callableMap.evalOverride = (key, valuePointer) {
-      if (key is ValString && key.value == "invoke") {
-        // TODO: Handle method parameters
-        valuePointer.value = ValString("Method findPlayer called");
-        return true;
-      }
-      return false;
+    fn.code = (Context context, [IntrinsicResult? partialResult]) {
+      return IntrinsicResult(f(context, partialResult));
     };
-    return callableMap;
+    return fn.valFunction;
   }
 
   /// Creates a MiniScript callable method for findWeapon
   Value _createFindWeaponMethod() {
-    var methodMap = ValMap();
-    methodMap.userData = this;
-    methodMap.evalOverride = (key, valuePointer) {
-      if (key is ValString && key.value == "call") {
-        valuePointer.value = _findWeaponCallMethod();
-        return true;
+    final fn = Intrinsic.create("_\$");
+    fn.name = "findWeapon";
+    fn.addParam("name");
+    Value? f(Context context, [IntrinsicResult? partialResult]) {
+      var name = ConversionUtils.valueToDart(context.getLocal("name"));
+      if (name == null) {
+        return ValString("Missing required argument: name");
       }
-      return false;
-    };
-    return methodMap;
-  }
+      var result = dartValue.findWeapon(name);
+      return ConversionUtils.dartToValue(result);
+    }
 
-  /// Callable method implementation for findWeapon
-  Value _findWeaponCallMethod() {
-    var callableMap = ValMap();
-    callableMap.userData = this;
-    callableMap.evalOverride = (key, valuePointer) {
-      if (key is ValString && key.value == "invoke") {
-        // TODO: Handle method parameters
-        valuePointer.value = ValString("Method findWeapon called");
-        return true;
-      }
-      return false;
+    fn.code = (Context context, [IntrinsicResult? partialResult]) {
+      return IntrinsicResult(f(context, partialResult));
     };
-    return callableMap;
+    return fn.valFunction;
   }
 
   /// Creates a MiniScript callable method for nextLevel
   Value _createNextLevelMethod() {
-    var methodMap = ValMap();
-    methodMap.userData = this;
-    methodMap.evalOverride = (key, valuePointer) {
-      if (key is ValString && key.value == "call") {
-        valuePointer.value = _nextLevelCallMethod();
-        return true;
-      }
-      return false;
-    };
-    return methodMap;
-  }
+    final fn = Intrinsic.create("_\$");
+    fn.name = "nextLevel";
+    Value? f(Context context, [IntrinsicResult? partialResult]) {
+      dartValue.nextLevel();
+      return ValNull.instance;
+    }
 
-  /// Callable method implementation for nextLevel
-  Value _nextLevelCallMethod() {
-    var callableMap = ValMap();
-    callableMap.userData = this;
-    callableMap.evalOverride = (key, valuePointer) {
-      if (key is ValString && key.value == "invoke") {
-        dartValue.nextLevel();
-        valuePointer.value = ValNull.instance;
-        return true;
-      }
-      return false;
+    fn.code = (Context context, [IntrinsicResult? partialResult]) {
+      return IntrinsicResult(f(context, partialResult));
     };
-    return callableMap;
+    return fn.valFunction;
   }
 
   /// Creates a MiniScript callable method for updateSetting
   Value _createUpdateSettingMethod() {
-    var methodMap = ValMap();
-    methodMap.userData = this;
-    methodMap.evalOverride = (key, valuePointer) {
-      if (key is ValString && key.value == "call") {
-        valuePointer.value = _updateSettingCallMethod();
-        return true;
+    final fn = Intrinsic.create("_\$");
+    fn.name = "updateSetting";
+    fn.addParam("key");
+    fn.addParam("value");
+    Value? f(Context context, [IntrinsicResult? partialResult]) {
+      var key = ConversionUtils.valueToDart(context.getLocal("key"));
+      if (key == null) {
+        return ValString("Missing required argument: key");
       }
-      return false;
-    };
-    return methodMap;
-  }
+      var value = ConversionUtils.valueToDart(context.getLocal("value"));
+      if (value == null) {
+        return ValString("Missing required argument: value");
+      }
+      dartValue.updateSetting(key, value);
+      return ValNull.instance;
+    }
 
-  /// Callable method implementation for updateSetting
-  Value _updateSettingCallMethod() {
-    var callableMap = ValMap();
-    callableMap.userData = this;
-    callableMap.evalOverride = (key, valuePointer) {
-      if (key is ValString && key.value == "invoke") {
-        // TODO: Handle method parameters
-        valuePointer.value = ValString("Method updateSetting called");
-        return true;
-      }
-      return false;
+    fn.code = (Context context, [IntrinsicResult? partialResult]) {
+      return IntrinsicResult(f(context, partialResult));
     };
-    return callableMap;
+    return fn.valFunction;
   }
 
   /// Creates a MiniScript callable method for recordHighScore
   Value _createRecordHighScoreMethod() {
-    var methodMap = ValMap();
-    methodMap.userData = this;
-    methodMap.evalOverride = (key, valuePointer) {
-      if (key is ValString && key.value == "call") {
-        valuePointer.value = _recordHighScoreCallMethod();
-        return true;
+    final fn = Intrinsic.create("_\$");
+    fn.name = "recordHighScore";
+    fn.addParam("playerName");
+    fn.addParam("score");
+    Value? f(Context context, [IntrinsicResult? partialResult]) {
+      var playerName =
+          ConversionUtils.valueToDart(context.getLocal("playerName"));
+      if (playerName == null) {
+        return ValString("Missing required argument: playerName");
       }
-      return false;
-    };
-    return methodMap;
-  }
+      var score = ConversionUtils.valueToDart(context.getLocal("score"));
+      if (score == null) {
+        return ValString("Missing required argument: score");
+      }
+      if (score is num) score = score.toInt();
+      dartValue.recordHighScore(playerName, score);
+      return ValNull.instance;
+    }
 
-  /// Callable method implementation for recordHighScore
-  Value _recordHighScoreCallMethod() {
-    var callableMap = ValMap();
-    callableMap.userData = this;
-    callableMap.evalOverride = (key, valuePointer) {
-      if (key is ValString && key.value == "invoke") {
-        // TODO: Handle method parameters
-        valuePointer.value = ValString("Method recordHighScore called");
-        return true;
-      }
-      return false;
+    fn.code = (Context context, [IntrinsicResult? partialResult]) {
+      return IntrinsicResult(f(context, partialResult));
     };
-    return callableMap;
+    return fn.valFunction;
   }
 
   /// Creates a MiniScript callable method for getStatistics
   Value _createGetStatisticsMethod() {
-    var methodMap = ValMap();
-    methodMap.userData = this;
-    methodMap.evalOverride = (key, valuePointer) {
-      if (key is ValString && key.value == "call") {
-        valuePointer.value = _getStatisticsCallMethod();
-        return true;
-      }
-      return false;
-    };
-    return methodMap;
-  }
+    final fn = Intrinsic.create("_\$");
+    fn.name = "getStatistics";
+    Value? f(Context context, [IntrinsicResult? partialResult]) {
+      var result = dartValue.getStatistics();
+      return ConversionUtils.dartToValue(result);
+    }
 
-  /// Callable method implementation for getStatistics
-  Value _getStatisticsCallMethod() {
-    var callableMap = ValMap();
-    callableMap.userData = this;
-    callableMap.evalOverride = (key, valuePointer) {
-      if (key is ValString && key.value == "invoke") {
-        var result = dartValue.getStatistics();
-        valuePointer.value = dartToMiniScript(result);
-        return true;
-      }
-      return false;
+    fn.code = (Context context, [IntrinsicResult? partialResult]) {
+      return IntrinsicResult(f(context, partialResult));
     };
-    return callableMap;
+    return fn.valFunction;
   }
 
   /// Creates a MiniScript callable method for getInfo
   Value _createGetInfoMethod() {
-    var methodMap = ValMap();
-    methodMap.userData = this;
-    methodMap.evalOverride = (key, valuePointer) {
-      if (key is ValString && key.value == "call") {
-        valuePointer.value = _getInfoCallMethod();
-        return true;
-      }
-      return false;
-    };
-    return methodMap;
-  }
+    final fn = Intrinsic.create("_\$");
+    fn.name = "getInfo";
+    Value? f(Context context, [IntrinsicResult? partialResult]) {
+      var result = dartValue.getInfo();
+      return ConversionUtils.dartToValue(result);
+    }
 
-  /// Callable method implementation for getInfo
-  Value _getInfoCallMethod() {
-    var callableMap = ValMap();
-    callableMap.userData = this;
-    callableMap.evalOverride = (key, valuePointer) {
-      if (key is ValString && key.value == "invoke") {
-        var result = dartValue.getInfo();
-        valuePointer.value = dartToMiniScript(result);
-        return true;
-      }
-      return false;
+    fn.code = (Context context, [IntrinsicResult? partialResult]) {
+      return IntrinsicResult(f(context, partialResult));
     };
-    return callableMap;
+    return fn.valFunction;
   }
 
   /// Creates a MiniScript callable method for toString
   Value _createToStringMethod() {
-    var methodMap = ValMap();
-    methodMap.userData = this;
-    methodMap.evalOverride = (key, valuePointer) {
-      if (key is ValString && key.value == "call") {
-        valuePointer.value = _toStringCallMethod();
-        return true;
-      }
-      return false;
-    };
-    return methodMap;
-  }
+    final fn = Intrinsic.create("_\$");
+    fn.name = "toString";
+    Value? f(Context context, [IntrinsicResult? partialResult]) {
+      var result = dartValue.toString();
+      return ConversionUtils.dartToValue(result);
+    }
 
-  /// Callable method implementation for toString
-  Value _toStringCallMethod() {
-    var callableMap = ValMap();
-    callableMap.userData = this;
-    callableMap.evalOverride = (key, valuePointer) {
-      if (key is ValString && key.value == "invoke") {
-        var result = dartValue.toString();
-        valuePointer.value = dartToMiniScript(result);
-        return true;
-      }
-      return false;
+    fn.code = (Context context, [IntrinsicResult? partialResult]) {
+      return IntrinsicResult(f(context, partialResult));
     };
-    return callableMap;
+    return fn.valFunction;
   }
 }
 

@@ -1,7 +1,4 @@
-import 'package:miniscript/miniscript_types/value.dart';
-
 import 'base_wrapper.dart';
-import 'conversion.dart';
 
 /// Type definition for wrapper factory functions.
 ///
@@ -87,31 +84,6 @@ class MiniScriptCache {
       'wrapperTypes': _wrapperFactories.keys.map((t) => t.toString()).toList(),
     };
   }
-}
-
-/// Global function to easily access the cache for dart-to-miniscript conversion.
-///
-/// This is the main function that will be used throughout the application.
-/// For custom objects, it uses the cache system. For primitives, it delegates
-/// to ConversionUtils.
-///
-/// Example:
-/// ```dart
-/// var player = Player('John', 100);
-/// var miniscriptPlayer = dartToMiniScript(player);
-/// ```
-Value? dartToMiniScript(dynamic dartValue) {
-  return ConversionUtils.dartToValue(dartValue);
-}
-
-/// Global function to easily access the cache for miniscript-to-dart conversion.
-///
-/// Example:
-/// ```dart
-/// var dartPlayer = miniScriptToDart(miniscriptPlayer);
-/// ```
-dynamic miniScriptToDart(Value? value) {
-  return ConversionUtils.valueToDart(value);
 }
 
 /// Sets up the cache system with all registered wrappers.

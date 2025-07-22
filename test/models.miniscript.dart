@@ -7,19 +7,16 @@
 // Generated MiniScript wrappers
 // This file is auto-generated. Do not edit manually.
 
-import "package:miniscript/miniscript_types/value.dart";
-import "package:miniscript/miniscript_types/value_map.dart";
-import "package:miniscript/miniscript_types/value_string.dart";
-import "package:miniscript/miniscript_types/value_null.dart";
-
-import "package:miniscriptgen/src/base_wrapper.dart";
-import "package:miniscriptgen/src/cache.dart";
+import "package:miniscript/miniscript_intrinsics/intrinsic.dart";
+import "package:miniscript/miniscript_intrinsics/intrinsic_result.dart";
+import "package:miniscript/miniscript_tac/context.dart";
+import "package:miniscriptgen/miniscriptgen.dart";
 
 import "models.dart";
 
 /// Generated wrapper for TestModel
 class TestModelWrapper extends BaseWrapper<TestModel> {
-  TestModelWrapper(TestModel dartObject) : super(dartObject);
+  TestModelWrapper(super.dartObject);
 
   @override
   List<String> getPropertyNames() {
@@ -36,11 +33,15 @@ class TestModelWrapper extends BaseWrapper<TestModel> {
   Value? getProperty(String propertyName) {
     switch (propertyName) {
       case "isValid":
-        return dartToMiniScript(dartValue.isValid);
+        return ConversionUtils.dartToValue(dartValue.isValid);
       case "name":
-        return dartToMiniScript(dartValue.name);
+        final value = dartValue.name;
+        if (value == null) {
+          return ValNull.instance;
+        }
+        return ConversionUtils.dartToValue(value);
       case "value":
-        return dartToMiniScript(dartValue.value);
+        return ConversionUtils.dartToValue(dartValue.value);
       case "setValue":
         return _createSetValueMethod();
       case "getName":
@@ -55,20 +56,23 @@ class TestModelWrapper extends BaseWrapper<TestModel> {
     switch (propertyName) {
       case "name":
         try {
-          var dartValue = miniScriptToDart(value);
-          if (dartValue is String || dartValue == null) {
-            this.dartValue.name = dartValue;
+          var dartValue = ConversionUtils.valueToDart(value);
+          if (dartValue == null || dartValue == ValNull.instance) {
+            this.dartValue.name = null;
             return true;
           }
+          this.dartValue.name =
+              ConversionUtils.hardConvert<String>(dartValue) as String;
+          return true;
         } catch (e) {
           // Type conversion failed
         }
         return false;
       case "value":
         try {
-          var dartValue = miniScriptToDart(value);
-          if (dartValue is num || dartValue == null) {
-            this.dartValue.value = dartValue?.toInt();
+          var dartValue = ConversionUtils.valueToDart(value);
+          if (dartValue is num) {
+            this.dartValue.value = dartValue.toInt();
             return true;
           }
         } catch (e) {
@@ -82,60 +86,38 @@ class TestModelWrapper extends BaseWrapper<TestModel> {
 
   /// Creates a MiniScript callable method for setValue
   Value _createSetValueMethod() {
-    var methodMap = ValMap();
-    methodMap.userData = this;
-    methodMap.evalOverride = (key, valuePointer) {
-      if (key is ValString && key.value == "call") {
-        valuePointer.value = _setValueCallMethod();
-        return true;
+    final fn = Intrinsic.create("_\$");
+    fn.name = "setValue";
+    fn.addParam("newValue");
+    Value? f(Context context, [IntrinsicResult? partialResult]) {
+      var newValue = ConversionUtils.valueToDart(context.getLocal("newValue"));
+      if (newValue == null) {
+        return ValString("Missing required argument: newValue");
       }
-      return false;
-    };
-    return methodMap;
-  }
+      if (newValue is num) newValue = newValue.toInt();
+      dartValue.setValue(newValue);
+      return ValNull.instance;
+    }
 
-  /// Callable method implementation for setValue
-  Value _setValueCallMethod() {
-    var callableMap = ValMap();
-    callableMap.userData = this;
-    callableMap.evalOverride = (key, valuePointer) {
-      if (key is ValString && key.value == "invoke") {
-        // TODO: Handle method parameters
-        valuePointer.value = ValString("Method setValue called");
-        return true;
-      }
-      return false;
+    fn.code = (Context context, [IntrinsicResult? partialResult]) {
+      return IntrinsicResult(f(context, partialResult));
     };
-    return callableMap;
+    return fn.valFunction;
   }
 
   /// Creates a MiniScript callable method for getName
   Value _createGetNameMethod() {
-    var methodMap = ValMap();
-    methodMap.userData = this;
-    methodMap.evalOverride = (key, valuePointer) {
-      if (key is ValString && key.value == "call") {
-        valuePointer.value = _getNameCallMethod();
-        return true;
-      }
-      return false;
-    };
-    return methodMap;
-  }
+    final fn = Intrinsic.create("_\$");
+    fn.name = "getName";
+    Value? f(Context context, [IntrinsicResult? partialResult]) {
+      var result = dartValue.getName();
+      return ConversionUtils.dartToValue(result);
+    }
 
-  /// Callable method implementation for getName
-  Value _getNameCallMethod() {
-    var callableMap = ValMap();
-    callableMap.userData = this;
-    callableMap.evalOverride = (key, valuePointer) {
-      if (key is ValString && key.value == "invoke") {
-        var result = dartValue.getName();
-        valuePointer.value = dartToMiniScript(result);
-        return true;
-      }
-      return false;
+    fn.code = (Context context, [IntrinsicResult? partialResult]) {
+      return IntrinsicResult(f(context, partialResult));
     };
-    return callableMap;
+    return fn.valFunction;
   }
 }
 
@@ -153,7 +135,7 @@ void registerTestModelWrapper() {
 
 /// Generated wrapper for TestConfig
 class TestConfigWrapper extends BaseWrapper<TestConfig> {
-  TestConfigWrapper(TestConfig dartObject) : super(dartObject);
+  TestConfigWrapper(super.dartObject);
 
   @override
   List<String> getPropertyNames() {
@@ -172,13 +154,13 @@ class TestConfigWrapper extends BaseWrapper<TestConfig> {
   Value? getProperty(String propertyName) {
     switch (propertyName) {
       case "environment":
-        return dartToMiniScript(dartValue.environment);
+        return ConversionUtils.dartToValue(dartValue.environment);
       case "debugMode":
-        return dartToMiniScript(dartValue.debugMode);
+        return ConversionUtils.dartToValue(dartValue.debugMode);
       case "features":
-        return dartToMiniScript(dartValue.features);
+        return ConversionUtils.dartToValue(dartValue.features);
       case "settings":
-        return dartToMiniScript(dartValue.settings);
+        return ConversionUtils.dartToValue(dartValue.settings);
       case "enableFeature":
         return _createEnableFeatureMethod();
       case "setSetting":
@@ -195,44 +177,38 @@ class TestConfigWrapper extends BaseWrapper<TestConfig> {
     switch (propertyName) {
       case "environment":
         try {
-          var dartValue = miniScriptToDart(value);
-          if (dartValue is String || dartValue == null) {
-            this.dartValue.environment = dartValue;
-            return true;
-          }
+          var dartValue = ConversionUtils.valueToDart(value);
+          this.dartValue.environment =
+              ConversionUtils.hardConvert<String>(dartValue) as String;
+          return true;
         } catch (e) {
           // Type conversion failed
         }
         return false;
       case "debugMode":
         try {
-          var dartValue = miniScriptToDart(value);
-          if (dartValue is bool || dartValue == null) {
-            this.dartValue.debugMode = dartValue;
-            return true;
-          }
+          var dartValue = ConversionUtils.valueToDart(value);
+          this.dartValue.debugMode =
+              ConversionUtils.hardConvert<bool>(dartValue) as bool;
+          return true;
         } catch (e) {
           // Type conversion failed
         }
         return false;
       case "features":
         try {
-          var dartValue = miniScriptToDart(value);
-          if (dartValue is List<String> || dartValue == null) {
-            this.dartValue.features = dartValue;
-            return true;
-          }
+          var dartValue = ConversionUtils.valueToDart(value);
+          this.dartValue.features = (dartValue).cast<String>();
+          return true;
         } catch (e) {
           // Type conversion failed
         }
         return false;
       case "settings":
         try {
-          var dartValue = miniScriptToDart(value);
-          if (dartValue is Map<String, dynamic> || dartValue == null) {
-            this.dartValue.settings = dartValue;
-            return true;
-          }
+          var dartValue = ConversionUtils.valueToDart(value);
+          this.dartValue.settings = (dartValue).cast<String, dynamic>();
+          return true;
         } catch (e) {
           // Type conversion failed
         }
@@ -244,89 +220,67 @@ class TestConfigWrapper extends BaseWrapper<TestConfig> {
 
   /// Creates a MiniScript callable method for enableFeature
   Value _createEnableFeatureMethod() {
-    var methodMap = ValMap();
-    methodMap.userData = this;
-    methodMap.evalOverride = (key, valuePointer) {
-      if (key is ValString && key.value == "call") {
-        valuePointer.value = _enableFeatureCallMethod();
-        return true;
+    final fn = Intrinsic.create("_\$");
+    fn.name = "enableFeature";
+    fn.addParam("feature");
+    Value? f(Context context, [IntrinsicResult? partialResult]) {
+      var feature = ConversionUtils.valueToDart(context.getLocal("feature"));
+      if (feature == null) {
+        return ValString("Missing required argument: feature");
       }
-      return false;
-    };
-    return methodMap;
-  }
+      dartValue.enableFeature(feature);
+      return ValNull.instance;
+    }
 
-  /// Callable method implementation for enableFeature
-  Value _enableFeatureCallMethod() {
-    var callableMap = ValMap();
-    callableMap.userData = this;
-    callableMap.evalOverride = (key, valuePointer) {
-      if (key is ValString && key.value == "invoke") {
-        // TODO: Handle method parameters
-        valuePointer.value = ValString("Method enableFeature called");
-        return true;
-      }
-      return false;
+    fn.code = (Context context, [IntrinsicResult? partialResult]) {
+      return IntrinsicResult(f(context, partialResult));
     };
-    return callableMap;
+    return fn.valFunction;
   }
 
   /// Creates a MiniScript callable method for setSetting
   Value _createSetSettingMethod() {
-    var methodMap = ValMap();
-    methodMap.userData = this;
-    methodMap.evalOverride = (key, valuePointer) {
-      if (key is ValString && key.value == "call") {
-        valuePointer.value = _setSettingCallMethod();
-        return true;
+    final fn = Intrinsic.create("_\$");
+    fn.name = "setSetting";
+    fn.addParam("key");
+    fn.addParam("value");
+    Value? f(Context context, [IntrinsicResult? partialResult]) {
+      var key = ConversionUtils.valueToDart(context.getLocal("key"));
+      if (key == null) {
+        return ValString("Missing required argument: key");
       }
-      return false;
-    };
-    return methodMap;
-  }
+      var value = ConversionUtils.valueToDart(context.getLocal("value"));
+      if (value == null) {
+        return ValString("Missing required argument: value");
+      }
+      dartValue.setSetting(key, value);
+      return ValNull.instance;
+    }
 
-  /// Callable method implementation for setSetting
-  Value _setSettingCallMethod() {
-    var callableMap = ValMap();
-    callableMap.userData = this;
-    callableMap.evalOverride = (key, valuePointer) {
-      if (key is ValString && key.value == "invoke") {
-        // TODO: Handle method parameters
-        valuePointer.value = ValString("Method setSetting called");
-        return true;
-      }
-      return false;
+    fn.code = (Context context, [IntrinsicResult? partialResult]) {
+      return IntrinsicResult(f(context, partialResult));
     };
-    return callableMap;
+    return fn.valFunction;
   }
 
   /// Creates a MiniScript callable method for getSetting
   Value _createGetSettingMethod() {
-    var methodMap = ValMap();
-    methodMap.userData = this;
-    methodMap.evalOverride = (key, valuePointer) {
-      if (key is ValString && key.value == "call") {
-        valuePointer.value = _getSettingCallMethod();
-        return true;
+    final fn = Intrinsic.create("_\$");
+    fn.name = "getSetting";
+    fn.addParam("key");
+    Value? f(Context context, [IntrinsicResult? partialResult]) {
+      var key = ConversionUtils.valueToDart(context.getLocal("key"));
+      if (key == null) {
+        return ValString("Missing required argument: key");
       }
-      return false;
-    };
-    return methodMap;
-  }
+      dartValue.getSetting(key);
+      return ValNull.instance;
+    }
 
-  /// Callable method implementation for getSetting
-  Value _getSettingCallMethod() {
-    var callableMap = ValMap();
-    callableMap.userData = this;
-    callableMap.evalOverride = (key, valuePointer) {
-      if (key is ValString && key.value == "invoke") {
-        // TODO: Handle method parameters
-        valuePointer.value = ValString("Method getSetting called");
-        return true;
-      }
-      return false;
+    fn.code = (Context context, [IntrinsicResult? partialResult]) {
+      return IntrinsicResult(f(context, partialResult));
     };
-    return callableMap;
+    return fn.valFunction;
   }
 }
 
@@ -344,7 +298,7 @@ void registerTestConfigWrapper() {
 
 /// Generated wrapper for TestResult
 class TestResultWrapper extends BaseWrapper<TestResult> {
-  TestResultWrapper(TestResult dartObject) : super(dartObject);
+  TestResultWrapper(super.dartObject);
 
   @override
   List<String> getPropertyNames() {
@@ -364,15 +318,19 @@ class TestResultWrapper extends BaseWrapper<TestResult> {
   Value? getProperty(String propertyName) {
     switch (propertyName) {
       case "isSuccess":
-        return dartToMiniScript(dartValue.isSuccess);
+        return ConversionUtils.dartToValue(dartValue.isSuccess);
       case "testName":
-        return dartToMiniScript(dartValue.testName);
+        return ConversionUtils.dartToValue(dartValue.testName);
       case "passed":
-        return dartToMiniScript(dartValue.passed);
+        return ConversionUtils.dartToValue(dartValue.passed);
       case "errorMessage":
-        return dartToMiniScript(dartValue.errorMessage);
+        final value = dartValue.errorMessage;
+        if (value == null) {
+          return ValNull.instance;
+        }
+        return ConversionUtils.dartToValue(value);
       case "duration":
-        return dartToMiniScript(dartValue.duration);
+        return ConversionUtils.dartToValue(dartValue.duration);
       case "markPassed":
         return _createMarkPassedMethod();
       case "markFailed":
@@ -389,42 +347,43 @@ class TestResultWrapper extends BaseWrapper<TestResult> {
     switch (propertyName) {
       case "testName":
         try {
-          var dartValue = miniScriptToDart(value);
-          if (dartValue is String || dartValue == null) {
-            this.dartValue.testName = dartValue;
-            return true;
-          }
+          var dartValue = ConversionUtils.valueToDart(value);
+          this.dartValue.testName =
+              ConversionUtils.hardConvert<String>(dartValue) as String;
+          return true;
         } catch (e) {
           // Type conversion failed
         }
         return false;
       case "passed":
         try {
-          var dartValue = miniScriptToDart(value);
-          if (dartValue is bool || dartValue == null) {
-            this.dartValue.passed = dartValue;
-            return true;
-          }
+          var dartValue = ConversionUtils.valueToDart(value);
+          this.dartValue.passed =
+              ConversionUtils.hardConvert<bool>(dartValue) as bool;
+          return true;
         } catch (e) {
           // Type conversion failed
         }
         return false;
       case "errorMessage":
         try {
-          var dartValue = miniScriptToDart(value);
-          if (dartValue is String || dartValue == null) {
-            this.dartValue.errorMessage = dartValue;
+          var dartValue = ConversionUtils.valueToDart(value);
+          if (dartValue == null || dartValue == ValNull.instance) {
+            this.dartValue.errorMessage = null;
             return true;
           }
+          this.dartValue.errorMessage =
+              ConversionUtils.hardConvert<String>(dartValue) as String;
+          return true;
         } catch (e) {
           // Type conversion failed
         }
         return false;
       case "duration":
         try {
-          var dartValue = miniScriptToDart(value);
-          if (dartValue is num || dartValue == null) {
-            this.dartValue.duration = dartValue?.toInt();
+          var dartValue = ConversionUtils.valueToDart(value);
+          if (dartValue is num) {
+            this.dartValue.duration = dartValue.toInt();
             return true;
           }
         } catch (e) {
@@ -438,89 +397,52 @@ class TestResultWrapper extends BaseWrapper<TestResult> {
 
   /// Creates a MiniScript callable method for markPassed
   Value _createMarkPassedMethod() {
-    var methodMap = ValMap();
-    methodMap.userData = this;
-    methodMap.evalOverride = (key, valuePointer) {
-      if (key is ValString && key.value == "call") {
-        valuePointer.value = _markPassedCallMethod();
-        return true;
-      }
-      return false;
-    };
-    return methodMap;
-  }
+    final fn = Intrinsic.create("_\$");
+    fn.name = "markPassed";
+    Value? f(Context context, [IntrinsicResult? partialResult]) {
+      dartValue.markPassed();
+      return ValNull.instance;
+    }
 
-  /// Callable method implementation for markPassed
-  Value _markPassedCallMethod() {
-    var callableMap = ValMap();
-    callableMap.userData = this;
-    callableMap.evalOverride = (key, valuePointer) {
-      if (key is ValString && key.value == "invoke") {
-        dartValue.markPassed();
-        valuePointer.value = ValNull.instance;
-        return true;
-      }
-      return false;
+    fn.code = (Context context, [IntrinsicResult? partialResult]) {
+      return IntrinsicResult(f(context, partialResult));
     };
-    return callableMap;
+    return fn.valFunction;
   }
 
   /// Creates a MiniScript callable method for markFailed
   Value _createMarkFailedMethod() {
-    var methodMap = ValMap();
-    methodMap.userData = this;
-    methodMap.evalOverride = (key, valuePointer) {
-      if (key is ValString && key.value == "call") {
-        valuePointer.value = _markFailedCallMethod();
-        return true;
+    final fn = Intrinsic.create("_\$");
+    fn.name = "markFailed";
+    fn.addParam("error");
+    Value? f(Context context, [IntrinsicResult? partialResult]) {
+      var error = ConversionUtils.valueToDart(context.getLocal("error"));
+      if (error == null) {
+        return ValString("Missing required argument: error");
       }
-      return false;
-    };
-    return methodMap;
-  }
+      dartValue.markFailed(error);
+      return ValNull.instance;
+    }
 
-  /// Callable method implementation for markFailed
-  Value _markFailedCallMethod() {
-    var callableMap = ValMap();
-    callableMap.userData = this;
-    callableMap.evalOverride = (key, valuePointer) {
-      if (key is ValString && key.value == "invoke") {
-        // TODO: Handle method parameters
-        valuePointer.value = ValString("Method markFailed called");
-        return true;
-      }
-      return false;
+    fn.code = (Context context, [IntrinsicResult? partialResult]) {
+      return IntrinsicResult(f(context, partialResult));
     };
-    return callableMap;
+    return fn.valFunction;
   }
 
   /// Creates a MiniScript callable method for toJson
   Value _createToJsonMethod() {
-    var methodMap = ValMap();
-    methodMap.userData = this;
-    methodMap.evalOverride = (key, valuePointer) {
-      if (key is ValString && key.value == "call") {
-        valuePointer.value = _toJsonCallMethod();
-        return true;
-      }
-      return false;
-    };
-    return methodMap;
-  }
+    final fn = Intrinsic.create("_\$");
+    fn.name = "toJson";
+    Value? f(Context context, [IntrinsicResult? partialResult]) {
+      var result = dartValue.toJson();
+      return ConversionUtils.dartToValue(result);
+    }
 
-  /// Callable method implementation for toJson
-  Value _toJsonCallMethod() {
-    var callableMap = ValMap();
-    callableMap.userData = this;
-    callableMap.evalOverride = (key, valuePointer) {
-      if (key is ValString && key.value == "invoke") {
-        var result = dartValue.toJson();
-        valuePointer.value = dartToMiniScript(result);
-        return true;
-      }
-      return false;
+    fn.code = (Context context, [IntrinsicResult? partialResult]) {
+      return IntrinsicResult(f(context, partialResult));
     };
-    return callableMap;
+    return fn.valFunction;
   }
 }
 
@@ -538,7 +460,7 @@ void registerTestResultWrapper() {
 
 /// Generated wrapper for ComplexTestModel
 class ComplexTestModelWrapper extends BaseWrapper<ComplexTestModel> {
-  ComplexTestModelWrapper(ComplexTestModel dartObject) : super(dartObject);
+  ComplexTestModelWrapper(super.dartObject);
 
   @override
   List<String> getPropertyNames() {
@@ -566,25 +488,25 @@ class ComplexTestModelWrapper extends BaseWrapper<ComplexTestModel> {
   Value? getProperty(String propertyName) {
     switch (propertyName) {
       case "listLength":
-        return dartToMiniScript(dartValue.listLength);
+        return ConversionUtils.dartToValue(dartValue.listLength);
       case "mapSize":
-        return dartToMiniScript(dartValue.mapSize);
+        return ConversionUtils.dartToValue(dartValue.mapSize);
       case "name":
-        return dartToMiniScript(dartValue.name);
+        return ConversionUtils.dartToValue(dartValue.name);
       case "intValue":
-        return dartToMiniScript(dartValue.intValue);
+        return ConversionUtils.dartToValue(dartValue.intValue);
       case "doubleValue":
-        return dartToMiniScript(dartValue.doubleValue);
+        return ConversionUtils.dartToValue(dartValue.doubleValue);
       case "boolValue":
-        return dartToMiniScript(dartValue.boolValue);
+        return ConversionUtils.dartToValue(dartValue.boolValue);
       case "stringList":
-        return dartToMiniScript(dartValue.stringList);
+        return ConversionUtils.dartToValue(dartValue.stringList);
       case "stringIntMap":
-        return dartToMiniScript(dartValue.stringIntMap);
+        return ConversionUtils.dartToValue(dartValue.stringIntMap);
       case "intList":
-        return dartToMiniScript(dartValue.intList);
+        return ConversionUtils.dartToValue(dartValue.intList);
       case "dynamicMap":
-        return dartToMiniScript(dartValue.dynamicMap);
+        return ConversionUtils.dartToValue(dartValue.dynamicMap);
       case "updateValues":
         return _createUpdateValuesMethod();
       case "addToList":
@@ -607,20 +529,19 @@ class ComplexTestModelWrapper extends BaseWrapper<ComplexTestModel> {
     switch (propertyName) {
       case "name":
         try {
-          var dartValue = miniScriptToDart(value);
-          if (dartValue is String || dartValue == null) {
-            this.dartValue.name = dartValue;
-            return true;
-          }
+          var dartValue = ConversionUtils.valueToDart(value);
+          this.dartValue.name =
+              ConversionUtils.hardConvert<String>(dartValue) as String;
+          return true;
         } catch (e) {
           // Type conversion failed
         }
         return false;
       case "intValue":
         try {
-          var dartValue = miniScriptToDart(value);
-          if (dartValue is num || dartValue == null) {
-            this.dartValue.intValue = dartValue?.toInt();
+          var dartValue = ConversionUtils.valueToDart(value);
+          if (dartValue is num) {
+            this.dartValue.intValue = dartValue.toInt();
             return true;
           }
         } catch (e) {
@@ -629,9 +550,9 @@ class ComplexTestModelWrapper extends BaseWrapper<ComplexTestModel> {
         return false;
       case "doubleValue":
         try {
-          var dartValue = miniScriptToDart(value);
-          if (dartValue is num || dartValue == null) {
-            this.dartValue.doubleValue = dartValue?.toDouble();
+          var dartValue = ConversionUtils.valueToDart(value);
+          if (dartValue is num) {
+            this.dartValue.doubleValue = dartValue.toDouble();
             return true;
           }
         } catch (e) {
@@ -640,55 +561,46 @@ class ComplexTestModelWrapper extends BaseWrapper<ComplexTestModel> {
         return false;
       case "boolValue":
         try {
-          var dartValue = miniScriptToDart(value);
-          if (dartValue is bool || dartValue == null) {
-            this.dartValue.boolValue = dartValue;
-            return true;
-          }
+          var dartValue = ConversionUtils.valueToDart(value);
+          this.dartValue.boolValue =
+              ConversionUtils.hardConvert<bool>(dartValue) as bool;
+          return true;
         } catch (e) {
           // Type conversion failed
         }
         return false;
       case "stringList":
         try {
-          var dartValue = miniScriptToDart(value);
-          if (dartValue is List<String> || dartValue == null) {
-            this.dartValue.stringList = dartValue;
-            return true;
-          }
+          var dartValue = ConversionUtils.valueToDart(value);
+          this.dartValue.stringList = (dartValue).cast<String>();
+          return true;
         } catch (e) {
           // Type conversion failed
         }
         return false;
       case "stringIntMap":
         try {
-          var dartValue = miniScriptToDart(value);
-          if (dartValue is Map<String, int> || dartValue == null) {
-            this.dartValue.stringIntMap = dartValue;
-            return true;
-          }
+          var dartValue = ConversionUtils.valueToDart(value);
+          this.dartValue.stringIntMap = (dartValue).cast<String, int>();
+          return true;
         } catch (e) {
           // Type conversion failed
         }
         return false;
       case "intList":
         try {
-          var dartValue = miniScriptToDart(value);
-          if (dartValue is List<int> || dartValue == null) {
-            this.dartValue.intList = dartValue;
-            return true;
-          }
+          var dartValue = ConversionUtils.valueToDart(value);
+          this.dartValue.intList = (dartValue).cast<int>();
+          return true;
         } catch (e) {
           // Type conversion failed
         }
         return false;
       case "dynamicMap":
         try {
-          var dartValue = miniScriptToDart(value);
-          if (dartValue is Map<String, dynamic> || dartValue == null) {
-            this.dartValue.dynamicMap = dartValue;
-            return true;
-          }
+          var dartValue = ConversionUtils.valueToDart(value);
+          this.dartValue.dynamicMap = (dartValue).cast<String, dynamic>();
+          return true;
         } catch (e) {
           // Type conversion failed
         }
@@ -700,176 +612,136 @@ class ComplexTestModelWrapper extends BaseWrapper<ComplexTestModel> {
 
   /// Creates a MiniScript callable method for updateValues
   Value _createUpdateValuesMethod() {
-    var methodMap = ValMap();
-    methodMap.userData = this;
-    methodMap.evalOverride = (key, valuePointer) {
-      if (key is ValString && key.value == "call") {
-        valuePointer.value = _updateValuesCallMethod();
-        return true;
+    final fn = Intrinsic.create("_\$");
+    fn.name = "updateValues";
+    fn.addParam("newName");
+    fn.addParam("newInt");
+    fn.addParam("newDouble");
+    Value? f(Context context, [IntrinsicResult? partialResult]) {
+      var newName = ConversionUtils.valueToDart(context.getLocal("newName"));
+      if (newName == null) {
+        return ValString("Missing required argument: newName");
       }
-      return false;
-    };
-    return methodMap;
-  }
+      var newInt = ConversionUtils.valueToDart(context.getLocal("newInt"));
+      if (newInt == null) {
+        return ValString("Missing required argument: newInt");
+      }
+      if (newInt is num) newInt = newInt.toInt();
+      var newDouble =
+          ConversionUtils.valueToDart(context.getLocal("newDouble"));
+      if (newDouble == null) {
+        return ValString("Missing required argument: newDouble");
+      }
+      if (newDouble is num) newDouble = newDouble.toDouble();
+      dartValue.updateValues(newName, newInt, newDouble);
+      return ValNull.instance;
+    }
 
-  /// Callable method implementation for updateValues
-  Value _updateValuesCallMethod() {
-    var callableMap = ValMap();
-    callableMap.userData = this;
-    callableMap.evalOverride = (key, valuePointer) {
-      if (key is ValString && key.value == "invoke") {
-        // TODO: Handle method parameters
-        valuePointer.value = ValString("Method updateValues called");
-        return true;
-      }
-      return false;
+    fn.code = (Context context, [IntrinsicResult? partialResult]) {
+      return IntrinsicResult(f(context, partialResult));
     };
-    return callableMap;
+    return fn.valFunction;
   }
 
   /// Creates a MiniScript callable method for addToList
   Value _createAddToListMethod() {
-    var methodMap = ValMap();
-    methodMap.userData = this;
-    methodMap.evalOverride = (key, valuePointer) {
-      if (key is ValString && key.value == "call") {
-        valuePointer.value = _addToListCallMethod();
-        return true;
+    final fn = Intrinsic.create("_\$");
+    fn.name = "addToList";
+    fn.addParam("item");
+    Value? f(Context context, [IntrinsicResult? partialResult]) {
+      var item = ConversionUtils.valueToDart(context.getLocal("item"));
+      if (item == null) {
+        return ValString("Missing required argument: item");
       }
-      return false;
-    };
-    return methodMap;
-  }
+      dartValue.addToList(item);
+      return ValNull.instance;
+    }
 
-  /// Callable method implementation for addToList
-  Value _addToListCallMethod() {
-    var callableMap = ValMap();
-    callableMap.userData = this;
-    callableMap.evalOverride = (key, valuePointer) {
-      if (key is ValString && key.value == "invoke") {
-        // TODO: Handle method parameters
-        valuePointer.value = ValString("Method addToList called");
-        return true;
-      }
-      return false;
+    fn.code = (Context context, [IntrinsicResult? partialResult]) {
+      return IntrinsicResult(f(context, partialResult));
     };
-    return callableMap;
+    return fn.valFunction;
   }
 
   /// Creates a MiniScript callable method for removeFromList
   Value _createRemoveFromListMethod() {
-    var methodMap = ValMap();
-    methodMap.userData = this;
-    methodMap.evalOverride = (key, valuePointer) {
-      if (key is ValString && key.value == "call") {
-        valuePointer.value = _removeFromListCallMethod();
-        return true;
+    final fn = Intrinsic.create("_\$");
+    fn.name = "removeFromList";
+    fn.addParam("item");
+    Value? f(Context context, [IntrinsicResult? partialResult]) {
+      var item = ConversionUtils.valueToDart(context.getLocal("item"));
+      if (item == null) {
+        return ValString("Missing required argument: item");
       }
-      return false;
-    };
-    return methodMap;
-  }
+      dartValue.removeFromList(item);
+      return ValNull.instance;
+    }
 
-  /// Callable method implementation for removeFromList
-  Value _removeFromListCallMethod() {
-    var callableMap = ValMap();
-    callableMap.userData = this;
-    callableMap.evalOverride = (key, valuePointer) {
-      if (key is ValString && key.value == "invoke") {
-        // TODO: Handle method parameters
-        valuePointer.value = ValString("Method removeFromList called");
-        return true;
-      }
-      return false;
+    fn.code = (Context context, [IntrinsicResult? partialResult]) {
+      return IntrinsicResult(f(context, partialResult));
     };
-    return callableMap;
+    return fn.valFunction;
   }
 
   /// Creates a MiniScript callable method for setMapValue
   Value _createSetMapValueMethod() {
-    var methodMap = ValMap();
-    methodMap.userData = this;
-    methodMap.evalOverride = (key, valuePointer) {
-      if (key is ValString && key.value == "call") {
-        valuePointer.value = _setMapValueCallMethod();
-        return true;
+    final fn = Intrinsic.create("_\$");
+    fn.name = "setMapValue";
+    fn.addParam("key");
+    fn.addParam("value");
+    Value? f(Context context, [IntrinsicResult? partialResult]) {
+      var key = ConversionUtils.valueToDart(context.getLocal("key"));
+      if (key == null) {
+        return ValString("Missing required argument: key");
       }
-      return false;
-    };
-    return methodMap;
-  }
+      var value = ConversionUtils.valueToDart(context.getLocal("value"));
+      if (value == null) {
+        return ValString("Missing required argument: value");
+      }
+      if (value is num) value = value.toInt();
+      dartValue.setMapValue(key, value);
+      return ValNull.instance;
+    }
 
-  /// Callable method implementation for setMapValue
-  Value _setMapValueCallMethod() {
-    var callableMap = ValMap();
-    callableMap.userData = this;
-    callableMap.evalOverride = (key, valuePointer) {
-      if (key is ValString && key.value == "invoke") {
-        // TODO: Handle method parameters
-        valuePointer.value = ValString("Method setMapValue called");
-        return true;
-      }
-      return false;
+    fn.code = (Context context, [IntrinsicResult? partialResult]) {
+      return IntrinsicResult(f(context, partialResult));
     };
-    return callableMap;
+    return fn.valFunction;
   }
 
   /// Creates a MiniScript callable method for getMapValue
   Value _createGetMapValueMethod() {
-    var methodMap = ValMap();
-    methodMap.userData = this;
-    methodMap.evalOverride = (key, valuePointer) {
-      if (key is ValString && key.value == "call") {
-        valuePointer.value = _getMapValueCallMethod();
-        return true;
+    final fn = Intrinsic.create("_\$");
+    fn.name = "getMapValue";
+    fn.addParam("key");
+    Value? f(Context context, [IntrinsicResult? partialResult]) {
+      var key = ConversionUtils.valueToDart(context.getLocal("key"));
+      if (key == null) {
+        return ValString("Missing required argument: key");
       }
-      return false;
-    };
-    return methodMap;
-  }
+      var result = dartValue.getMapValue(key);
+      return ConversionUtils.dartToValue(result);
+    }
 
-  /// Callable method implementation for getMapValue
-  Value _getMapValueCallMethod() {
-    var callableMap = ValMap();
-    callableMap.userData = this;
-    callableMap.evalOverride = (key, valuePointer) {
-      if (key is ValString && key.value == "invoke") {
-        // TODO: Handle method parameters
-        valuePointer.value = ValString("Method getMapValue called");
-        return true;
-      }
-      return false;
+    fn.code = (Context context, [IntrinsicResult? partialResult]) {
+      return IntrinsicResult(f(context, partialResult));
     };
-    return callableMap;
+    return fn.valFunction;
   }
 
   /// Creates a MiniScript callable method for clearAll
   Value _createClearAllMethod() {
-    var methodMap = ValMap();
-    methodMap.userData = this;
-    methodMap.evalOverride = (key, valuePointer) {
-      if (key is ValString && key.value == "call") {
-        valuePointer.value = _clearAllCallMethod();
-        return true;
-      }
-      return false;
-    };
-    return methodMap;
-  }
+    final fn = Intrinsic.create("_\$");
+    fn.name = "clearAll";
+    Value? f(Context context, [IntrinsicResult? partialResult]) {
+      dartValue.clearAll();
+      return ValNull.instance;
+    }
 
-  /// Callable method implementation for clearAll
-  Value _clearAllCallMethod() {
-    var callableMap = ValMap();
-    callableMap.userData = this;
-    callableMap.evalOverride = (key, valuePointer) {
-      if (key is ValString && key.value == "invoke") {
-        dartValue.clearAll();
-        valuePointer.value = ValNull.instance;
-        return true;
-      }
-      return false;
+    fn.code = (Context context, [IntrinsicResult? partialResult]) {
+      return IntrinsicResult(f(context, partialResult));
     };
-    return callableMap;
+    return fn.valFunction;
   }
 }
 
@@ -888,8 +760,7 @@ void registerComplexTestModelWrapper() {
 
 /// Generated wrapper for PerformanceTestModel
 class PerformanceTestModelWrapper extends BaseWrapper<PerformanceTestModel> {
-  PerformanceTestModelWrapper(PerformanceTestModel dartObject)
-      : super(dartObject);
+  PerformanceTestModelWrapper(super.dartObject);
 
   @override
   List<String> getPropertyNames() {
@@ -909,15 +780,15 @@ class PerformanceTestModelWrapper extends BaseWrapper<PerformanceTestModel> {
   Value? getProperty(String propertyName) {
     switch (propertyName) {
       case "status":
-        return dartToMiniScript(dartValue.status);
+        return ConversionUtils.dartToValue(dartValue.status);
       case "id":
-        return dartToMiniScript(dartValue.id);
+        return ConversionUtils.dartToValue(dartValue.id);
       case "counter":
-        return dartToMiniScript(dartValue.counter);
+        return ConversionUtils.dartToValue(dartValue.counter);
       case "timestamp":
-        return dartToMiniScript(dartValue.timestamp);
+        return ConversionUtils.dartToValue(dartValue.timestamp);
       case "data":
-        return dartToMiniScript(dartValue.data);
+        return ConversionUtils.dartToValue(dartValue.data);
       case "increment":
         return _createIncrementMethod();
       case "updateTimestamp":
@@ -934,20 +805,19 @@ class PerformanceTestModelWrapper extends BaseWrapper<PerformanceTestModel> {
     switch (propertyName) {
       case "id":
         try {
-          var dartValue = miniScriptToDart(value);
-          if (dartValue is String || dartValue == null) {
-            this.dartValue.id = dartValue;
-            return true;
-          }
+          var dartValue = ConversionUtils.valueToDart(value);
+          this.dartValue.id =
+              ConversionUtils.hardConvert<String>(dartValue) as String;
+          return true;
         } catch (e) {
           // Type conversion failed
         }
         return false;
       case "counter":
         try {
-          var dartValue = miniScriptToDart(value);
-          if (dartValue is num || dartValue == null) {
-            this.dartValue.counter = dartValue?.toInt();
+          var dartValue = ConversionUtils.valueToDart(value);
+          if (dartValue is num) {
+            this.dartValue.counter = dartValue.toInt();
             return true;
           }
         } catch (e) {
@@ -956,9 +826,9 @@ class PerformanceTestModelWrapper extends BaseWrapper<PerformanceTestModel> {
         return false;
       case "timestamp":
         try {
-          var dartValue = miniScriptToDart(value);
-          if (dartValue is num || dartValue == null) {
-            this.dartValue.timestamp = dartValue?.toDouble();
+          var dartValue = ConversionUtils.valueToDart(value);
+          if (dartValue is num) {
+            this.dartValue.timestamp = dartValue.toDouble();
             return true;
           }
         } catch (e) {
@@ -967,11 +837,9 @@ class PerformanceTestModelWrapper extends BaseWrapper<PerformanceTestModel> {
         return false;
       case "data":
         try {
-          var dartValue = miniScriptToDart(value);
-          if (dartValue is List<String> || dartValue == null) {
-            this.dartValue.data = dartValue;
-            return true;
-          }
+          var dartValue = ConversionUtils.valueToDart(value);
+          this.dartValue.data = (dartValue).cast<String>();
+          return true;
         } catch (e) {
           // Type conversion failed
         }
@@ -983,89 +851,52 @@ class PerformanceTestModelWrapper extends BaseWrapper<PerformanceTestModel> {
 
   /// Creates a MiniScript callable method for increment
   Value _createIncrementMethod() {
-    var methodMap = ValMap();
-    methodMap.userData = this;
-    methodMap.evalOverride = (key, valuePointer) {
-      if (key is ValString && key.value == "call") {
-        valuePointer.value = _incrementCallMethod();
-        return true;
-      }
-      return false;
-    };
-    return methodMap;
-  }
+    final fn = Intrinsic.create("_\$");
+    fn.name = "increment";
+    Value? f(Context context, [IntrinsicResult? partialResult]) {
+      dartValue.increment();
+      return ValNull.instance;
+    }
 
-  /// Callable method implementation for increment
-  Value _incrementCallMethod() {
-    var callableMap = ValMap();
-    callableMap.userData = this;
-    callableMap.evalOverride = (key, valuePointer) {
-      if (key is ValString && key.value == "invoke") {
-        dartValue.increment();
-        valuePointer.value = ValNull.instance;
-        return true;
-      }
-      return false;
+    fn.code = (Context context, [IntrinsicResult? partialResult]) {
+      return IntrinsicResult(f(context, partialResult));
     };
-    return callableMap;
+    return fn.valFunction;
   }
 
   /// Creates a MiniScript callable method for updateTimestamp
   Value _createUpdateTimestampMethod() {
-    var methodMap = ValMap();
-    methodMap.userData = this;
-    methodMap.evalOverride = (key, valuePointer) {
-      if (key is ValString && key.value == "call") {
-        valuePointer.value = _updateTimestampCallMethod();
-        return true;
-      }
-      return false;
-    };
-    return methodMap;
-  }
+    final fn = Intrinsic.create("_\$");
+    fn.name = "updateTimestamp";
+    Value? f(Context context, [IntrinsicResult? partialResult]) {
+      dartValue.updateTimestamp();
+      return ValNull.instance;
+    }
 
-  /// Callable method implementation for updateTimestamp
-  Value _updateTimestampCallMethod() {
-    var callableMap = ValMap();
-    callableMap.userData = this;
-    callableMap.evalOverride = (key, valuePointer) {
-      if (key is ValString && key.value == "invoke") {
-        dartValue.updateTimestamp();
-        valuePointer.value = ValNull.instance;
-        return true;
-      }
-      return false;
+    fn.code = (Context context, [IntrinsicResult? partialResult]) {
+      return IntrinsicResult(f(context, partialResult));
     };
-    return callableMap;
+    return fn.valFunction;
   }
 
   /// Creates a MiniScript callable method for addData
   Value _createAddDataMethod() {
-    var methodMap = ValMap();
-    methodMap.userData = this;
-    methodMap.evalOverride = (key, valuePointer) {
-      if (key is ValString && key.value == "call") {
-        valuePointer.value = _addDataCallMethod();
-        return true;
+    final fn = Intrinsic.create("_\$");
+    fn.name = "addData";
+    fn.addParam("item");
+    Value? f(Context context, [IntrinsicResult? partialResult]) {
+      var item = ConversionUtils.valueToDart(context.getLocal("item"));
+      if (item == null) {
+        return ValString("Missing required argument: item");
       }
-      return false;
-    };
-    return methodMap;
-  }
+      dartValue.addData(item);
+      return ValNull.instance;
+    }
 
-  /// Callable method implementation for addData
-  Value _addDataCallMethod() {
-    var callableMap = ValMap();
-    callableMap.userData = this;
-    callableMap.evalOverride = (key, valuePointer) {
-      if (key is ValString && key.value == "invoke") {
-        // TODO: Handle method parameters
-        valuePointer.value = ValString("Method addData called");
-        return true;
-      }
-      return false;
+    fn.code = (Context context, [IntrinsicResult? partialResult]) {
+      return IntrinsicResult(f(context, partialResult));
     };
-    return callableMap;
+    return fn.valFunction;
   }
 }
 
@@ -1084,7 +915,7 @@ void registerPerformanceTestModelWrapper() {
 
 /// Generated wrapper for ErrorTestModel
 class ErrorTestModelWrapper extends BaseWrapper<ErrorTestModel> {
-  ErrorTestModelWrapper(ErrorTestModel dartObject) : super(dartObject);
+  ErrorTestModelWrapper(super.dartObject);
 
   @override
   List<String> getPropertyNames() {
@@ -1103,13 +934,17 @@ class ErrorTestModelWrapper extends BaseWrapper<ErrorTestModel> {
   Value? getProperty(String propertyName) {
     switch (propertyName) {
       case "description":
-        return dartToMiniScript(dartValue.description);
+        return ConversionUtils.dartToValue(dartValue.description);
       case "nullableString":
-        return dartToMiniScript(dartValue.nullableString);
+        final value = dartValue.nullableString;
+        if (value == null) {
+          return ValNull.instance;
+        }
+        return ConversionUtils.dartToValue(value);
       case "nonNullableInt":
-        return dartToMiniScript(dartValue.nonNullableInt);
+        return ConversionUtils.dartToValue(dartValue.nonNullableInt);
       case "flag":
-        return dartToMiniScript(dartValue.flag);
+        return ConversionUtils.dartToValue(dartValue.flag);
       case "setNullableString":
         return _createSetNullableStringMethod();
       case "setNonNullableInt":
@@ -1126,20 +961,23 @@ class ErrorTestModelWrapper extends BaseWrapper<ErrorTestModel> {
     switch (propertyName) {
       case "nullableString":
         try {
-          var dartValue = miniScriptToDart(value);
-          if (dartValue is String || dartValue == null) {
-            this.dartValue.nullableString = dartValue;
+          var dartValue = ConversionUtils.valueToDart(value);
+          if (dartValue == null || dartValue == ValNull.instance) {
+            this.dartValue.nullableString = null;
             return true;
           }
+          this.dartValue.nullableString =
+              ConversionUtils.hardConvert<String>(dartValue) as String;
+          return true;
         } catch (e) {
           // Type conversion failed
         }
         return false;
       case "nonNullableInt":
         try {
-          var dartValue = miniScriptToDart(value);
-          if (dartValue is num || dartValue == null) {
-            this.dartValue.nonNullableInt = dartValue?.toInt();
+          var dartValue = ConversionUtils.valueToDart(value);
+          if (dartValue is num) {
+            this.dartValue.nonNullableInt = dartValue.toInt();
             return true;
           }
         } catch (e) {
@@ -1148,11 +986,10 @@ class ErrorTestModelWrapper extends BaseWrapper<ErrorTestModel> {
         return false;
       case "flag":
         try {
-          var dartValue = miniScriptToDart(value);
-          if (dartValue is bool || dartValue == null) {
-            this.dartValue.flag = dartValue;
-            return true;
-          }
+          var dartValue = ConversionUtils.valueToDart(value);
+          this.dartValue.flag =
+              ConversionUtils.hardConvert<bool>(dartValue) as bool;
+          return true;
         } catch (e) {
           // Type conversion failed
         }
@@ -1164,89 +1001,55 @@ class ErrorTestModelWrapper extends BaseWrapper<ErrorTestModel> {
 
   /// Creates a MiniScript callable method for setNullableString
   Value _createSetNullableStringMethod() {
-    var methodMap = ValMap();
-    methodMap.userData = this;
-    methodMap.evalOverride = (key, valuePointer) {
-      if (key is ValString && key.value == "call") {
-        valuePointer.value = _setNullableStringCallMethod();
-        return true;
-      }
-      return false;
-    };
-    return methodMap;
-  }
+    final fn = Intrinsic.create("_\$");
+    fn.name = "setNullableString";
+    fn.addParam("value", ValNull.instance);
+    Value? f(Context context, [IntrinsicResult? partialResult]) {
+      var value = ConversionUtils.valueToDart(context.getLocal("value"));
+      dartValue.setNullableString(value);
+      return ValNull.instance;
+    }
 
-  /// Callable method implementation for setNullableString
-  Value _setNullableStringCallMethod() {
-    var callableMap = ValMap();
-    callableMap.userData = this;
-    callableMap.evalOverride = (key, valuePointer) {
-      if (key is ValString && key.value == "invoke") {
-        // TODO: Handle method parameters
-        valuePointer.value = ValString("Method setNullableString called");
-        return true;
-      }
-      return false;
+    fn.code = (Context context, [IntrinsicResult? partialResult]) {
+      return IntrinsicResult(f(context, partialResult));
     };
-    return callableMap;
+    return fn.valFunction;
   }
 
   /// Creates a MiniScript callable method for setNonNullableInt
   Value _createSetNonNullableIntMethod() {
-    var methodMap = ValMap();
-    methodMap.userData = this;
-    methodMap.evalOverride = (key, valuePointer) {
-      if (key is ValString && key.value == "call") {
-        valuePointer.value = _setNonNullableIntCallMethod();
-        return true;
+    final fn = Intrinsic.create("_\$");
+    fn.name = "setNonNullableInt";
+    fn.addParam("value");
+    Value? f(Context context, [IntrinsicResult? partialResult]) {
+      var value = ConversionUtils.valueToDart(context.getLocal("value"));
+      if (value == null) {
+        return ValString("Missing required argument: value");
       }
-      return false;
-    };
-    return methodMap;
-  }
+      if (value is num) value = value.toInt();
+      dartValue.setNonNullableInt(value);
+      return ValNull.instance;
+    }
 
-  /// Callable method implementation for setNonNullableInt
-  Value _setNonNullableIntCallMethod() {
-    var callableMap = ValMap();
-    callableMap.userData = this;
-    callableMap.evalOverride = (key, valuePointer) {
-      if (key is ValString && key.value == "invoke") {
-        // TODO: Handle method parameters
-        valuePointer.value = ValString("Method setNonNullableInt called");
-        return true;
-      }
-      return false;
+    fn.code = (Context context, [IntrinsicResult? partialResult]) {
+      return IntrinsicResult(f(context, partialResult));
     };
-    return callableMap;
+    return fn.valFunction;
   }
 
   /// Creates a MiniScript callable method for toggleFlag
   Value _createToggleFlagMethod() {
-    var methodMap = ValMap();
-    methodMap.userData = this;
-    methodMap.evalOverride = (key, valuePointer) {
-      if (key is ValString && key.value == "call") {
-        valuePointer.value = _toggleFlagCallMethod();
-        return true;
-      }
-      return false;
-    };
-    return methodMap;
-  }
+    final fn = Intrinsic.create("_\$");
+    fn.name = "toggleFlag";
+    Value? f(Context context, [IntrinsicResult? partialResult]) {
+      dartValue.toggleFlag();
+      return ValNull.instance;
+    }
 
-  /// Callable method implementation for toggleFlag
-  Value _toggleFlagCallMethod() {
-    var callableMap = ValMap();
-    callableMap.userData = this;
-    callableMap.evalOverride = (key, valuePointer) {
-      if (key is ValString && key.value == "invoke") {
-        dartValue.toggleFlag();
-        valuePointer.value = ValNull.instance;
-        return true;
-      }
-      return false;
+    fn.code = (Context context, [IntrinsicResult? partialResult]) {
+      return IntrinsicResult(f(context, partialResult));
     };
-    return callableMap;
+    return fn.valFunction;
   }
 }
 

@@ -1,3 +1,6 @@
+import 'package:miniscript/miniscript_interpreter.dart';
+import 'package:miniscript/miniscript_tac/context.dart';
+import 'package:miniscript/miniscript_types/function.dart';
 import 'package:miniscript/miniscript_types/helpers.dart';
 import 'package:miniscriptgen/miniscriptgen.dart';
 
@@ -8,12 +11,22 @@ import 'package:miniscriptgen/miniscriptgen.dart';
 class ConversionUtils {
   ConversionUtils._(); // Private constructor to prevent instantiation
 
+  static dynamic hardConvert<T>(dynamic value) {
+    if (T == bool) {
+      if (value is double || value is int) {
+        return value == 1;
+      }
+    }
+
+    return value;
+  }
+
   /// Converts a Dart object to a MiniScript Value.
   ///
   /// This is the main conversion method that handles all Dart -> MiniScript
   /// conversions including primitives, collections, and null values.
   /// For custom objects, returns null (should be handled by cache system).
-  static Value? dartToValue<T>(T dartValue, {bool force = false}) {
+  static Value? dartToValue<T>(T dartValue, {bool force = true}) {
     if (dartValue == null) {
       return ValNull.instance;
     }
@@ -67,11 +80,27 @@ class ConversionUtils {
     return wrapper.call(dartValue);
   }
 
+  static Value? Function(Interpreter interpreter, List<Value?> args)
+  valueToDartFunction(ValFunction function) {
+    return (Interpreter interpreter, List<Value?> args) {
+      final context = Context([]);
+      if (interpreter.vm != null) {
+        context.parent = interpreter.vm!.globalContext;
+      }
+
+      for (final line in context.code) {
+        line.evaluate(context);
+      }
+
+      return context.resultStorage;
+    };
+  }
+
   /// Converts a MiniScript Value to a Dart object.
   ///
   /// This is the main conversion method that handles all MiniScript -> Dart
   /// conversions including primitives, collections, wrappers, and null values.
-  static dynamic valueToDart<T extends Value>(T? value) {
+  static dynamic valueToDart<T extends Value>(T? value, {bool force = true}) {
     if (value == null || value is ValNull) {
       return null;
     }
@@ -84,8 +113,8 @@ class ConversionUtils {
       return value.value;
     }
 
-    if (value is ValList) {
-      return value.values;
+    if (value is ValFunction) {
+      return valueToDartFunction(value);
     }
 
     // Handle BaseWrapper objects - import handled via late binding
@@ -100,8 +129,30 @@ class ConversionUtils {
       }
     }
 
-    if (value is ValMap) {
-      return value.map.realMap;
+    if (force) {
+      if (value is ValList) {
+        // Recursively convert each element to Dart
+        return value.values.map((e) => valueToDart(e, force: true)).toList();
+      }
+
+      if (value is ValMap) {
+        // Recursively convert each key and value to Dart
+        final realMap = value.map.realMap;
+        return realMap.map(
+          (k, v) => MapEntry(
+            valueToDart(k, force: true),
+            valueToDart(v, force: true),
+          ),
+        );
+      }
+    } else {
+      if (value is ValMap) {
+        return value.map.realMap;
+      }
+
+      if (value is ValList) {
+        return value.values;
+      }
     }
 
     // For other types, return as-is
@@ -141,20 +192,3 @@ class ConversionUtils {
     return value.runtimeType.toString();
   }
 }
-
-/// Extension methods for Value to add convenience methods.
-extension ValueExtensions on Value {
-  /// Gets the type name of this Value.
-  String get typeName => ConversionUtils.getTypeName(this);
-}
-
-/// Extension methods for common Dart types to convert to MiniScript Values.
-extension DartExtensions on dynamic {
-  /// Converts this Dart value to a MiniScript Value.
-  Value? get asMiniScriptValue => ConversionUtils.dartToValue(this);
-}
-
-/// Global convenience functions for conversion
-Value? dartToMiniScript(dynamic dartValue) =>
-    ConversionUtils.dartToValue(dartValue);
-dynamic miniScriptToDart(Value? value) => ConversionUtils.valueToDart(value);

@@ -1,3 +1,5 @@
+import 'package:miniscript/miniscript_interpreter.dart';
+import 'package:miniscript/miniscript_types/function.dart';
 import 'package:miniscriptgen/miniscriptgen.dart';
 import 'dart:io';
 
@@ -85,10 +87,10 @@ void testTestModelWrapper() {
 
   // Test method access
   final setValueMethod = wrapper.getProperty('setValue');
-  assert(setValueMethod is ValMap, 'Method should be ValMap');
+  assert(setValueMethod is ValFunction, 'Method should be ValFunction');
 
   final getNameMethod = wrapper.getProperty('getName');
-  assert(getNameMethod is ValMap, 'Method should be ValMap');
+  assert(getNameMethod is ValFunction, 'Method should be ValFunction');
 
   print('✅ TestModel wrapper tests passed');
 }
@@ -334,13 +336,16 @@ void testPerformanceTestModelWrapper() {
 
   // Test methods
   final incrementMethod = wrapper.getProperty('increment');
-  assert(incrementMethod is ValMap, 'increment should be method');
+  assert(incrementMethod is ValFunction, 'increment should be method');
 
   final updateTimestampMethod = wrapper.getProperty('updateTimestamp');
-  assert(updateTimestampMethod is ValMap, 'updateTimestamp should be method');
+  assert(
+    updateTimestampMethod is ValFunction,
+    'updateTimestamp should be method',
+  );
 
   final addDataMethod = wrapper.getProperty('addData');
-  assert(addDataMethod is ValMap, 'addData should be method');
+  assert(addDataMethod is ValFunction, 'addData should be method');
 
   print('✅ PerformanceTestModel wrapper tests passed');
 }
@@ -450,30 +455,20 @@ void testMethodInvocation() {
 
   // Test method retrieval
   final setValueMethod = wrapper.getProperty('setValue');
-  assert(setValueMethod is ValMap, 'setValue should be ValMap method');
+  assert(
+    setValueMethod is ValFunction,
+    'setValue should be ValFunction method',
+  );
 
   final getNameMethod = wrapper.getProperty('getName');
-  assert(getNameMethod is ValMap, 'getName should be ValMap method');
-
-  // Test method properties
-  final setValueMap = setValueMethod as ValMap;
-  assert(
-    setValueMap.userData == wrapper,
-    'Method should have wrapper as userData',
-  );
-
-  final getNameMap = getNameMethod as ValMap;
-  assert(
-    getNameMap.userData == wrapper,
-    'Method should have wrapper as userData',
-  );
+  assert(getNameMethod is ValFunction, 'getName should be ValFunction method');
 
   // Test method has call property
-  final callPointer = ValuePointer<Value>();
-  final hasCall =
-      setValueMap.evalOverride?.call(ValString('call'), callPointer) ?? false;
-  assert(hasCall == true, 'Method should have call property');
-  assert(callPointer.value is ValMap, 'Call should return ValMap');
+  final f = ConversionUtils.valueToDartFunction(
+    (setValueMethod as ValFunction),
+  );
+  final value = f(Interpreter(), [ValNumber(100)]);
+  assert(value == null, 'Call should return null');
 
   print('✅ Method invocation tests passed');
 }

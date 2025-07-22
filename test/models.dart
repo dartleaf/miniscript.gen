@@ -3,7 +3,7 @@ import 'package:miniscriptgen/miniscriptgen.dart';
 /// Basic test model for wrapper generation testing
 @visible
 class TestModel {
-  String name;
+  String? name;
   int value;
 
   @hide
@@ -15,7 +15,7 @@ class TestModel {
     value = newValue;
   }
 
-  String getName() {
+  String? getName() {
     return name;
   }
 

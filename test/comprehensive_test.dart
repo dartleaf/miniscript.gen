@@ -55,20 +55,26 @@ void main() {
 
     group('Type Conversion Tests', () {
       test('dartToMiniScript conversions', () {
-        expect(dartToMiniScript('test'), isA<ValString>());
-        expect(dartToMiniScript(42), isA<ValNumber>());
-        expect(dartToMiniScript(3.14), isA<ValNumber>());
-        expect(dartToMiniScript(true), isA<ValNumber>());
-        expect(dartToMiniScript(null), isA<ValNull>());
-        expect(dartToMiniScript(['a', 'b']), isA<ValList>());
-        expect(dartToMiniScript({'key': 'value'}), isA<ValMap>());
+        expect(ConversionUtils.dartToValue('test'), isA<ValString>());
+        expect(ConversionUtils.dartToValue(42), isA<ValNumber>());
+        expect(ConversionUtils.dartToValue(3.14), isA<ValNumber>());
+        expect(ConversionUtils.dartToValue(true), isA<ValNumber>());
+        expect(ConversionUtils.dartToValue(null), isA<ValNull>());
+        expect(
+          ConversionUtils.dartToValue(['a', 'b'], force: true),
+          isA<ValList>(),
+        );
+        expect(
+          ConversionUtils.dartToValue({'key': 'value'}, force: true),
+          isA<ValMap>(),
+        );
       });
 
       test('miniScriptToDart conversions', () {
-        expect(miniScriptToDart(ValString('test')), equals('test'));
-        expect(miniScriptToDart(ValNumber(42)), equals(42.0));
-        expect(miniScriptToDart(ValNumber(1)), equals(1.0));
-        expect(miniScriptToDart(ValNull.instance), isNull);
+        expect(ConversionUtils.valueToDart(ValString('test')), equals('test'));
+        expect(ConversionUtils.valueToDart(ValNumber(42)), equals(42.0));
+        expect(ConversionUtils.valueToDart(ValNumber(1)), equals(1.0));
+        expect(ConversionUtils.valueToDart(ValNull.instance), isNull);
       });
     });
 

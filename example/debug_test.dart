@@ -34,18 +34,18 @@ void main() {
   );
   print('');
 
-  final dartFromNumber = miniScriptToDart(valNumber90);
-  final dartFromString90 = miniScriptToDart(valString90);
-  final dartFromStringHello = miniScriptToDart(valStringHello);
+  final dartFromNumber = ConversionUtils.valueToDart(valNumber90);
+  final dartFromString90 = ConversionUtils.valueToDart(valString90);
+  final dartFromStringHello = ConversionUtils.valueToDart(valStringHello);
 
   print(
-    'miniScriptToDart(ValNumber(90)): $dartFromNumber (${dartFromNumber.runtimeType})',
+    'valueToDart(ValNumber(90)): $dartFromNumber (${dartFromNumber.runtimeType})',
   );
   print(
-    'miniScriptToDart(ValString("90")): $dartFromString90 (${dartFromString90.runtimeType})',
+    'valueToDart(ValString("90")): $dartFromString90 (${dartFromString90.runtimeType})',
   );
   print(
-    'miniScriptToDart(ValString("Hello")): $dartFromStringHello (${dartFromStringHello.runtimeType})',
+    'valueToDart(ValString("Hello")): $dartFromStringHello (${dartFromStringHello.runtimeType})',
   );
   print('');
 
@@ -86,23 +86,31 @@ void main() {
   final boolValue = true;
   final doubleValue = 3.14;
 
-  final msInt = dartToMiniScript(intValue);
-  final msString = dartToMiniScript(stringValue);
-  final msBool = dartToMiniScript(boolValue);
-  final msDouble = dartToMiniScript(doubleValue);
+  final msInt = ConversionUtils.dartToValue(intValue);
+  final msString = ConversionUtils.dartToValue(stringValue);
+  final msBool = ConversionUtils.dartToValue(boolValue);
+  final msDouble = ConversionUtils.dartToValue(doubleValue);
 
-  print('dartToMiniScript(42): $msInt (${msInt.runtimeType})');
-  print('dartToMiniScript("test"): $msString (${msString.runtimeType})');
-  print('dartToMiniScript(true): $msBool (${msBool.runtimeType})');
-  print('dartToMiniScript(3.14): $msDouble (${msDouble.runtimeType})');
+  print('dartToValue(42): $msInt (${msInt.runtimeType})');
+  print('dartToValue("test"): $msString (${msString.runtimeType})');
+  print('dartToValue(true): $msBool (${msBool.runtimeType})');
+  print('dartToValue(3.14): $msDouble (${msDouble.runtimeType})');
   print('');
 
   // Test conversion round trip
   print('=== Testing round trip conversion ===');
-  final roundTripInt = miniScriptToDart(dartToMiniScript(intValue));
-  final roundTripString = miniScriptToDart(dartToMiniScript(stringValue));
-  final roundTripBool = miniScriptToDart(dartToMiniScript(boolValue));
-  final roundTripDouble = miniScriptToDart(dartToMiniScript(doubleValue));
+  final roundTripInt = ConversionUtils.valueToDart(
+    ConversionUtils.dartToValue(intValue),
+  );
+  final roundTripString = ConversionUtils.valueToDart(
+    ConversionUtils.dartToValue(stringValue),
+  );
+  final roundTripBool = ConversionUtils.valueToDart(
+    ConversionUtils.dartToValue(boolValue),
+  );
+  final roundTripDouble = ConversionUtils.valueToDart(
+    ConversionUtils.dartToValue(doubleValue),
+  );
 
   print('Round trip int: $roundTripInt (${roundTripInt.runtimeType})');
   print('Round trip string: $roundTripString (${roundTripString.runtimeType})');

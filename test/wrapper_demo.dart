@@ -342,16 +342,16 @@ void demoCacheIntegration() {
   print('Wrapper2 getName method: ${getName2.runtimeType}');
 
   // Use dartToMiniScript function (uses cache)
-  final miniScriptValue1 = dartToMiniScript(model1);
-  final miniScriptValue2 = dartToMiniScript(model2);
+  final miniScriptValue1 = ConversionUtils.dartToValue(model1);
+  final miniScriptValue2 = ConversionUtils.dartToValue(model2);
 
   print('Converted to MiniScript values:');
   print('  Value1 type: ${miniScriptValue1.runtimeType}');
   print('  Value2 type: ${miniScriptValue2.runtimeType}');
 
   // Convert back to Dart
-  final dartValue1 = miniScriptToDart(miniScriptValue1);
-  final dartValue2 = miniScriptToDart(miniScriptValue2);
+  final dartValue1 = ConversionUtils.valueToDart(miniScriptValue1);
+  final dartValue2 = ConversionUtils.valueToDart(miniScriptValue2);
 
   print('Converted back to Dart:');
   print('  Value1 type: ${dartValue1.runtimeType}');
@@ -374,8 +374,8 @@ void demoCacheIntegration() {
 
 /// Utility function to demonstrate conversion
 void showConversion(String label, dynamic value) {
-  final miniScriptValue = dartToMiniScript(value);
-  final backToDart = miniScriptToDart(miniScriptValue);
+  final miniScriptValue = ConversionUtils.dartToValue(value);
+  final backToDart = ConversionUtils.valueToDart(miniScriptValue);
 
   print('$label:');
   print('  Dart: $value (${value.runtimeType})');

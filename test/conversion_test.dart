@@ -70,8 +70,8 @@ void main() {
       final dartList = ConversionUtils.valueToDart(valList);
 
       expect(dartList, isA<List>());
-      expect(dartList[0], equals('a'));
-      expect(dartList[1], equals('b'));
+      expect(ConversionUtils.valueToDart(dartList[0]), equals('a'));
+      expect(ConversionUtils.valueToDart(dartList[1]), equals('b'));
     });
 
     test('round-trip conversions', () {
@@ -89,18 +89,15 @@ void main() {
 
       // Test list round trip
       final originalList = ['a', 'b', 'c'];
-      final valList = ConversionUtils.dartToValue(originalList);
+      final valList = ConversionUtils.dartToValue(originalList, force: true);
       final backToList = ConversionUtils.valueToDart(valList);
       expect(backToList, equals(originalList));
     });
 
     test('convenience functions', () {
       // Test global convenience functions
-      expect(dartToMiniScript('hello'), isA<ValString>());
-      expect(miniScriptToDart(ValString('hello')), equals('hello'));
-
-      // Test extension methods
-      expect('hello'.asMiniScriptValue, isA<ValString>());
+      expect(ConversionUtils.dartToValue('hello'), isA<ValString>());
+      expect(ConversionUtils.valueToDart(ValString('hello')), equals('hello'));
     });
 
     test('utility functions', () {

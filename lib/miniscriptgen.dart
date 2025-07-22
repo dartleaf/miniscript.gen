@@ -1,11 +1,11 @@
 // Core components
 export 'src/annotations.dart';
 export 'src/base_wrapper.dart';
-export 'src/cache.dart' hide dartToMiniScript, miniScriptToDart;
+export 'src/cache.dart';
 export 'src/conversion.dart';
 
 // Code generation
-export 'src/generator.dart';
+export 'builder.dart';
 
 // Re-export key MiniScript types for convenience
 export 'package:miniscript/miniscript_types/value.dart';

@@ -1,4 +1,6 @@
+import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/dart/element/element.dart';
+import 'package:analyzer/dart/element/nullability_suffix.dart';
 import 'package:analyzer/dart/element/type.dart';
 import 'package:build/build.dart';
 import 'package:source_gen/source_gen.dart';
@@ -41,19 +43,14 @@ class MiniScriptWrapperGenerator extends Generator {
     buffer.writeln();
 
     // Generate imports at the top
-    buffer.writeln('import "package:miniscript/miniscript_types/value.dart";');
     buffer.writeln(
-      'import "package:miniscript/miniscript_types/value_map.dart";',
+      'import "package:miniscript/miniscript_intrinsics/intrinsic.dart";',
     );
     buffer.writeln(
-      'import "package:miniscript/miniscript_types/value_string.dart";',
+      'import "package:miniscript/miniscript_intrinsics/intrinsic_result.dart";',
     );
-    buffer.writeln(
-      'import "package:miniscript/miniscript_types/value_null.dart";',
-    );
-    buffer.writeln();
-    buffer.writeln('import "package:miniscriptgen/src/base_wrapper.dart";');
-    buffer.writeln('import "package:miniscriptgen/src/cache.dart";');
+    buffer.writeln('import "package:miniscript/miniscript_tac/context.dart";');
+    buffer.writeln('import "package:miniscriptgen/miniscriptgen.dart";');
     buffer.writeln();
 
     // Import the source library
@@ -99,6 +96,32 @@ class MiniScriptWrapperGenerator extends Generator {
     return buffer.toString();
   }
 
+  static String convert(DartType dartType, String value) {
+    if (dartType is ParameterizedType) {
+      if (dartType.isDartCoreMap) {
+        final keyType = dartType.typeArguments[0];
+        final valueType = dartType.typeArguments[1];
+
+        final keyTypeName = keyType.getDisplayString();
+        final valueTypeName = valueType.getDisplayString();
+
+        return "($value).cast<$keyTypeName, $valueTypeName>()";
+      }
+      if (dartType.isDartCoreList) {
+        final elementType = dartType.typeArguments[0];
+        final elementTypeName = elementType.getDisplayString();
+
+        final valueTypeName = elementTypeName;
+
+        return "($value).cast<$valueTypeName>()";
+      }
+    }
+
+    final typeName = _getDartTypeString(dartType).replaceAll("?", "");
+
+    return "ConversionUtils.hardConvert<$typeName>($value) as $typeName";
+  }
+
   String _generateWrapperClass(ClassElement classElement) {
     final className = classElement.name;
     final wrapperName = '${className}Wrapper';
@@ -107,9 +130,7 @@ class MiniScriptWrapperGenerator extends Generator {
     // Generate wrapper class
     buffer.writeln('/// Generated wrapper for $className');
     buffer.writeln('class $wrapperName extends BaseWrapper<$className> {');
-    buffer.writeln(
-      '  $wrapperName($className dartObject) : super(dartObject);',
-    );
+    buffer.writeln('  $wrapperName(super.dartObject);');
     buffer.writeln();
 
     // Get visible properties and methods
@@ -138,10 +159,22 @@ class MiniScriptWrapperGenerator extends Generator {
 
     // Generate property getters
     for (final prop in properties) {
-      buffer.writeln('      case "${prop.name}":');
-      buffer.writeln(
-        '        return dartToMiniScript(dartValue.${prop.name});',
-      );
+      //final dartType = _getDartTypeString(prop.type);
+      final isNullable =
+          prop.type.nullabilitySuffix == NullabilitySuffix.question;
+      if (isNullable) {
+        buffer.writeln('      case "${prop.name}":');
+        buffer.writeln('        final value = dartValue.${prop.name};');
+        buffer.writeln(
+          '        if (value == null) { return ValNull.instance; }',
+        );
+        buffer.writeln('        return ConversionUtils.dartToValue(value);');
+      } else {
+        buffer.writeln('      case "${prop.name}":');
+        buffer.writeln(
+          '        return ConversionUtils.dartToValue(dartValue.${prop.name});',
+        );
+      }
     }
 
     // Generate method bindings
@@ -167,36 +200,77 @@ class MiniScriptWrapperGenerator extends Generator {
     for (final prop in properties) {
       if (prop.isWritable && !prop.isGetter && prop.isProperty) {
         final dartType = _getDartTypeString(prop.type);
+        final isNullable =
+            prop.type.nullabilitySuffix == NullabilitySuffix.question;
         buffer.writeln('      case "${prop.name}":');
         buffer.writeln('        try {');
-        buffer.writeln('          var dartValue = miniScriptToDart(value);');
+        buffer.writeln(
+          '          var dartValue = ConversionUtils.valueToDart(value);',
+        );
 
-        // Handle numeric type conversions
-        if (dartType == 'int') {
-          buffer.writeln(
-            '          if (dartValue is num || dartValue == null) {',
-          );
-          buffer.writeln(
-            '            this.dartValue.${prop.name} = dartValue?.toInt();',
-          );
-        } else if (dartType == 'double') {
-          buffer.writeln(
-            '          if (dartValue is num || dartValue == null) {',
-          );
-          buffer.writeln(
-            '            this.dartValue.${prop.name} = dartValue?.toDouble();',
-          );
+        if (isNullable) {
+          // Nullish property: allow null and ValNull.instance
+          if (dartType == 'int?') {
+            buffer.writeln(
+              '          if (dartValue == null || dartValue == ValNull.instance) {',
+            );
+            buffer.writeln('            this.dartValue.${prop.name} = null;');
+            buffer.writeln('            return true;');
+            buffer.writeln('          }');
+            buffer.writeln('          if (dartValue is num) {');
+            buffer.writeln(
+              '            this.dartValue.${prop.name} = dartValue.toInt();',
+            );
+            buffer.writeln('            return true;');
+            buffer.writeln('          }');
+          } else if (dartType == 'double?') {
+            buffer.writeln(
+              '          if (dartValue == null || dartValue == ValNull.instance) {',
+            );
+            buffer.writeln('            this.dartValue.${prop.name} = null;');
+            buffer.writeln('            return true;');
+            buffer.writeln('          }');
+            buffer.writeln('          if (dartValue is num) {');
+            buffer.writeln(
+              '            this.dartValue.${prop.name} = dartValue.toDouble();',
+            );
+            buffer.writeln('            return true;');
+            buffer.writeln('          }');
+          } else {
+            buffer.writeln(
+              '          if (dartValue == null || dartValue == ValNull.instance) {',
+            );
+            buffer.writeln('            this.dartValue.${prop.name} = null;');
+            buffer.writeln('            return true;');
+            buffer.writeln('          }');
+            buffer.writeln(
+              '            this.dartValue.${prop.name} = ${convert(prop.type, "dartValue")};',
+            );
+            buffer.writeln('            return true;');
+          }
         } else {
-          buffer.writeln(
-            '          if (dartValue is $dartType || dartValue == null) {',
-          );
-          buffer.writeln(
-            '            this.dartValue.${prop.name} = dartValue;',
-          );
+          // Non-nullish property: do not allow null or ValNull.instance
+          if (dartType == 'int') {
+            buffer.writeln('          if (dartValue is num) {');
+            buffer.writeln(
+              '            this.dartValue.${prop.name} = dartValue.toInt();',
+            );
+            buffer.writeln('            return true;');
+            buffer.writeln('          }');
+          } else if (dartType == 'double') {
+            buffer.writeln('          if (dartValue is num) {');
+            buffer.writeln(
+              '            this.dartValue.${prop.name} = dartValue.toDouble();',
+            );
+            buffer.writeln('            return true;');
+            buffer.writeln('          }');
+          } else {
+            buffer.writeln(
+              '            this.dartValue.${prop.name} = ${convert(prop.type, "dartValue")};',
+            );
+            buffer.writeln('            return true;');
+          }
         }
-
-        buffer.writeln('            return true;');
-        buffer.writeln('          }');
         buffer.writeln('        } catch (e) {');
         buffer.writeln('          // Type conversion failed');
         buffer.writeln('        }');
@@ -210,57 +284,82 @@ class MiniScriptWrapperGenerator extends Generator {
     buffer.writeln('  }');
     buffer.writeln();
 
-    // Generate method wrappers
+    // Generate method wrappers using Intrinsic
     for (final method in methods) {
       buffer.writeln(
         '  /// Creates a MiniScript callable method for ${method.name}',
       );
       buffer.writeln('  Value _create${_capitalize(method.name)}Method() {');
-      buffer.writeln('    var methodMap = ValMap();');
-      buffer.writeln('    methodMap.userData = this;');
-      buffer.writeln('    methodMap.evalOverride = (key, valuePointer) {');
-      buffer.writeln('      if (key is ValString && key.value == "call") {');
+      buffer.writeln('    final fn = Intrinsic.create("_\\\$");');
+      buffer.writeln('    fn.name = "${method.name}";');
+      // Add parameters
+      for (final param in method.parameters) {
+        //final paramType = _getDartTypeString(param.type);
+        final isNullable =
+            param.type.nullabilitySuffix == NullabilitySuffix.question;
+        final defaultValue = param.defaultValueCode;
+        String defaultValStr = 'null';
+        if (defaultValue != null) {
+          // Try to convert Dart default value to a MiniScript Value
+          // For now, just use as string, but ideally should parse to Value
+          defaultValStr = 'ValString(${_escapeString(defaultValue)})';
+        } else if (isNullable) {
+          defaultValStr = 'ValNull.instance';
+        }
+        buffer.write('    fn.addParam("${param.name}"');
+        if (defaultValStr != 'null') {
+          buffer.write(', $defaultValStr');
+        }
+        buffer.writeln(');');
+      }
       buffer.writeln(
-        '        valuePointer.value = _${method.name}CallMethod();',
+        '    Value? f(Context context, [IntrinsicResult? partialResult]) {',
       );
-      buffer.writeln('        return true;');
-      buffer.writeln('      }');
-      buffer.writeln('      return false;');
-      buffer.writeln('    };');
-      buffer.writeln('    return methodMap;');
-      buffer.writeln('  }');
-      buffer.writeln();
-
-      buffer.writeln('  /// Callable method implementation for ${method.name}');
-      buffer.writeln('  Value _${method.name}CallMethod() {');
-      buffer.writeln('    var callableMap = ValMap();');
-      buffer.writeln('    callableMap.userData = this;');
-      buffer.writeln('    callableMap.evalOverride = (key, valuePointer) {');
-      buffer.writeln('      if (key is ValString && key.value == "invoke") {');
-
-      // Generate method call logic
-      if (method.parameters.isEmpty) {
-        if (method.returnType is DynamicType || method.returnType is VoidType) {
-          buffer.writeln('        dartValue.${method.name}();');
-          buffer.writeln('        valuePointer.value = ValNull.instance;');
-        } else {
-          buffer.writeln('        var result = dartValue.${method.name}();');
+      // Argument extraction
+      for (final param in method.parameters) {
+        final paramType = _getDartTypeString(param.type);
+        final isNullable =
+            param.type.nullabilitySuffix == NullabilitySuffix.question;
+        buffer.writeln(
+          '      var ${param.name} = ConversionUtils.valueToDart(context.getLocal("${param.name}"));',
+        );
+        if (!isNullable) {
+          buffer.writeln('      if (${param.name} == null) {');
           buffer.writeln(
-            '        valuePointer.value = dartToMiniScript(result);',
+            '        return ValString("Missing required argument: ${param.name}");',
+          );
+          buffer.writeln('      }');
+        }
+        if (paramType == 'int') {
+          buffer.writeln(
+            '      if (${param.name} is num) ${param.name} = ${param.name}.toInt();',
+          );
+        } else if (paramType == 'double') {
+          buffer.writeln(
+            '      if (${param.name} is num) ${param.name} = ${param.name}.toDouble();',
           );
         }
-      } else {
-        buffer.writeln('        // TODO: Handle method parameters');
-        buffer.writeln(
-          '        valuePointer.value = ValString("Method ${method.name} called");',
-        );
       }
-
-      buffer.writeln('        return true;');
-      buffer.writeln('      }');
-      buffer.writeln('      return false;');
+      // Call the Dart method
+      final argList = method.parameters.map((p) => p.name).join(', ');
+      if (method.returnType is DynamicType || method.returnType is VoidType) {
+        buffer.writeln('      dartValue.${method.name}($argList);');
+        buffer.writeln('      return ValNull.instance;');
+      } else {
+        buffer.writeln(
+          '      var result = dartValue.${method.name}($argList);',
+        );
+        buffer.writeln('      return ConversionUtils.dartToValue(result);');
+      }
+      buffer.writeln('    }');
+      buffer.writeln(
+        '     fn.code = (Context context, [IntrinsicResult? partialResult]) {',
+      );
+      buffer.writeln(
+        '      return IntrinsicResult(f(context, partialResult));',
+      );
       buffer.writeln('    };');
-      buffer.writeln('    return callableMap;');
+      buffer.writeln('    return fn.valFunction;');
       buffer.writeln('  }');
       buffer.writeln();
     }
@@ -370,15 +469,20 @@ class MiniScriptWrapperGenerator extends Generator {
     });
   }
 
-  String _getDartTypeString(DartType type) {
+  static String _getDartTypeString(DartType type) {
     if (type is DynamicType) return 'dynamic';
     if (type is VoidType) return 'void';
-    return type.getDisplayString(withNullability: false);
+    return type.getDisplayString();
   }
 
   String _capitalize(String str) {
     if (str.isEmpty) return str;
     return str[0].toUpperCase() + str.substring(1);
+  }
+
+  String _escapeString(String input) {
+    // Escape for Dart string literal
+    return "'${input.replaceAll("'", "\\'")}'";
   }
 }
 
