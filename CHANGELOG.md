@@ -1,6 +1,14 @@
-## 0.0.1-alpha8
+## 0.0.1-alpha13
+
+- Add support for custom functions.
+
+## 0.0.1-alpha12
 
 - Fix intrinsic callback bug.
+
+## 0.0.1-alpha8
+
+- Bump version.
 
 ## 0.0.1-alpha7
 
