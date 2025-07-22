@@ -1,6 +1,6 @@
 name: miniscriptgen
 description: A code generator for Miniscript.
-version: 0.0.1-alpha8
+version: 0.0.1-alpha10
 repository: https://github.com/dartleaf/miniscript.gen
 
 environment:
@@ -12,7 +12,7 @@ dependencies:
   source_gen: ^1.4.0
   build: ^2.4.0
   analyzer: ^6.11.0
-  miniscriptgenlib: ^0.0.1-alpha7
+  miniscriptgenlib: ^0.0.1-alpha10
   # path: ^1.8.0
 
 dev_dependencies:

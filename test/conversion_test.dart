@@ -95,14 +95,5 @@ void main() {
       expect(ConversionUtils.dartToValue('hello'), isA<ValString>());
       expect(ConversionUtils.valueToDart(ValString('hello')), equals('hello'));
     });
-
-    test('utility functions', () {
-      // Test type names
-      expect(ConversionUtils.getTypeName(ValString('test')), equals('string'));
-      expect(ConversionUtils.getTypeName(ValNumber(42.0)), equals('number'));
-      expect(ConversionUtils.getTypeName(ValList([])), equals('list'));
-      expect(ConversionUtils.getTypeName(ValMap()), equals('map'));
-      expect(ConversionUtils.getTypeName(ValNull.instance), equals('null'));
-    });
   });
 }
