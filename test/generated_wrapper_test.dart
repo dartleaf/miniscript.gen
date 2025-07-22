@@ -466,7 +466,7 @@ void testMethodInvocation() {
   final f = ConversionUtils.valueToDartFunction(
     (setValueMethod as ValFunction),
   );
-  final value = f(Interpreter(), [ValNumber(100)]);
+  final value = f(Context([]), [ValNumber(100)]);
   assert(value == null, 'Call should return null');
 
   print('✅ Method invocation tests passed');
