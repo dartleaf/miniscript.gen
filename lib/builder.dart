@@ -43,9 +43,7 @@ class MiniScriptWrapperGenerator extends Generator {
 
     // Generate imports at the top
     buffer.writeln('import "package:miniscript/miniscript.dart";');
-    buffer.writeln('import "package:miniscriptgen/src/base_wrapper.dart";');
-    buffer.writeln('import "package:miniscriptgen/src/conversion.dart";');
-    buffer.writeln('import "package:miniscriptgen/src/cache.dart";');
+    buffer.writeln('import "package:miniscriptgen/lib.dart";');
     buffer.writeln();
 
     // Import the source library
