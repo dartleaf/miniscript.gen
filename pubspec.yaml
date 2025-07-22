@@ -1,7 +1,7 @@
 name: miniscriptgen
 description: A starting point for Dart libraries or applications.
 version: 0.0.1-alpha1
-# repository: https://github.com/my_org/my_repo
+repository: https://github.com/dartleaf/miniscript.gen
 
 environment:
   sdk: ^3.7.2
