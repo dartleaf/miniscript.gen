@@ -1,5 +1,5 @@
 name: miniscriptgen
-description: A starting point for Dart libraries or applications.
+description: A code generator for Miniscript
 version: 0.0.1-alpha1
 repository: https://github.com/dartleaf/miniscript.gen
 
