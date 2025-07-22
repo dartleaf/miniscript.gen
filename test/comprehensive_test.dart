@@ -1,5 +1,7 @@
 import 'package:test/test.dart';
-import 'package:miniscriptgen/miniscriptgen.dart';
+import 'package:miniscript/miniscript.dart';
+import 'package:miniscriptgen/src/cache.dart';
+import 'package:miniscriptgen/src/conversion.dart';
 
 // Import test models
 import 'models.dart';

@@ -1,5 +1,4 @@
-import 'package:miniscript/miniscript_interpreter.dart';
-import 'package:miniscriptgen/miniscriptgen.dart';
+import 'package:miniscript/miniscript.dart';
 
 import 'models/player.dart';
 import 'models/game.dart';

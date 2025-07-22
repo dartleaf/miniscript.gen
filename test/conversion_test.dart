@@ -1,9 +1,5 @@
 import 'package:test/test.dart';
-import 'package:miniscript/miniscript_types/value_string.dart';
-import 'package:miniscript/miniscript_types/value_number.dart';
-import 'package:miniscript/miniscript_types/value_list.dart';
-import 'package:miniscript/miniscript_types/value_map.dart';
-import 'package:miniscript/miniscript_types/value_null.dart';
+import 'package:miniscript/miniscript.dart';
 
 import 'package:miniscriptgen/src/conversion.dart';
 

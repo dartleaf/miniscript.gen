@@ -7,10 +7,10 @@
 // Generated MiniScript wrappers
 // This file is auto-generated. Do not edit manually.
 
-import "package:miniscript/miniscript_intrinsics/intrinsic.dart";
-import "package:miniscript/miniscript_intrinsics/intrinsic_result.dart";
-import "package:miniscript/miniscript_tac/context.dart";
-import "package:miniscriptgen/miniscriptgen.dart";
+import "package:miniscript/miniscript.dart";
+import "package:miniscriptgen/src/base_wrapper.dart";
+import "package:miniscriptgen/src/conversion.dart";
+import "package:miniscriptgen/src/cache.dart";
 
 import "game.dart";
 import "player.dart";
@@ -156,7 +156,7 @@ class GameWrapper extends BaseWrapper<Game> {
       case "level":
         try {
           var dartValue = ConversionUtils.valueToDart(value);
-          if (dartValue is num) {
+          if (dartValue is int || dartValue is double) {
             this.dartValue.level = dartValue.toInt();
             return true;
           }
@@ -167,7 +167,7 @@ class GameWrapper extends BaseWrapper<Game> {
       case "maxLevel":
         try {
           var dartValue = ConversionUtils.valueToDart(value);
-          if (dartValue is num) {
+          if (dartValue is int || dartValue is double) {
             this.dartValue.maxLevel = dartValue.toInt();
             return true;
           }
@@ -438,7 +438,7 @@ class GameWrapper extends BaseWrapper<Game> {
       if (score == null) {
         return ValString("Missing required argument: score");
       }
-      if (score is num) score = score.toInt();
+      if (score is int) score = score.toInt();
       dartValue.recordHighScore(playerName, score);
       return ValNull.instance;
     }

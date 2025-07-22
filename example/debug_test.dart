@@ -1,4 +1,5 @@
-import 'package:miniscriptgen/miniscriptgen.dart';
+import 'package:miniscript/miniscript.dart';
+import 'package:miniscriptgen/src/conversion.dart';
 
 import 'models/player.dart';
 import 'models/player.miniscript.dart';
@@ -53,7 +54,6 @@ void main() {
   print('=== Testing type checks ===');
   print('dartFromNumber is int: ${dartFromNumber is int}');
   print('dartFromNumber is double: ${dartFromNumber is double}');
-  print('dartFromNumber is num: ${dartFromNumber is num}');
   print('dartFromString90 is int: ${dartFromString90 is int}');
   print('dartFromString90 is String: ${dartFromString90 is String}');
   print('');

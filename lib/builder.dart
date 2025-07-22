@@ -42,14 +42,10 @@ class MiniScriptWrapperGenerator extends Generator {
     buffer.writeln();
 
     // Generate imports at the top
-    buffer.writeln(
-      'import "package:miniscript/miniscript_intrinsics/intrinsic.dart";',
-    );
-    buffer.writeln(
-      'import "package:miniscript/miniscript_intrinsics/intrinsic_result.dart";',
-    );
-    buffer.writeln('import "package:miniscript/miniscript_tac/context.dart";');
-    buffer.writeln('import "package:miniscriptgen/miniscriptgen.dart";');
+    buffer.writeln('import "package:miniscript/miniscript.dart";');
+    buffer.writeln('import "package:miniscriptgen/src/base_wrapper.dart";');
+    buffer.writeln('import "package:miniscriptgen/src/conversion.dart";');
+    buffer.writeln('import "package:miniscriptgen/src/cache.dart";');
     buffer.writeln();
 
     // Import the source library
@@ -216,7 +212,9 @@ class MiniScriptWrapperGenerator extends Generator {
             buffer.writeln('            this.dartValue.${prop.name} = null;');
             buffer.writeln('            return true;');
             buffer.writeln('          }');
-            buffer.writeln('          if (dartValue is num) {');
+            buffer.writeln(
+              '          if (dartValue is int || dartValue is double) {',
+            );
             buffer.writeln(
               '            this.dartValue.${prop.name} = dartValue.toInt();',
             );
@@ -229,7 +227,7 @@ class MiniScriptWrapperGenerator extends Generator {
             buffer.writeln('            this.dartValue.${prop.name} = null;');
             buffer.writeln('            return true;');
             buffer.writeln('          }');
-            buffer.writeln('          if (dartValue is num) {');
+            buffer.writeln('          if (dartValue is double) {');
             buffer.writeln(
               '            this.dartValue.${prop.name} = dartValue.toDouble();',
             );
@@ -250,14 +248,16 @@ class MiniScriptWrapperGenerator extends Generator {
         } else {
           // Non-nullish property: do not allow null or ValNull.instance
           if (dartType == 'int') {
-            buffer.writeln('          if (dartValue is num) {');
+            buffer.writeln(
+              '          if (dartValue is int || dartValue is double) {',
+            );
             buffer.writeln(
               '            this.dartValue.${prop.name} = dartValue.toInt();',
             );
             buffer.writeln('            return true;');
             buffer.writeln('          }');
           } else if (dartType == 'double') {
-            buffer.writeln('          if (dartValue is num) {');
+            buffer.writeln('          if (dartValue is double) {');
             buffer.writeln(
               '            this.dartValue.${prop.name} = dartValue.toDouble();',
             );
@@ -331,11 +331,11 @@ class MiniScriptWrapperGenerator extends Generator {
         }
         if (paramType == 'int') {
           buffer.writeln(
-            '      if (${param.name} is num) ${param.name} = ${param.name}.toInt();',
+            '      if (${param.name} is int) ${param.name} = ${param.name}.toInt();',
           );
         } else if (paramType == 'double') {
           buffer.writeln(
-            '      if (${param.name} is num) ${param.name} = ${param.name}.toDouble();',
+            '      if (${param.name} is double) ${param.name} = ${param.name}.toDouble();',
           );
         }
       }

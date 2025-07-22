@@ -1,6 +1,4 @@
-import 'package:miniscript/miniscript_types/value.dart';
-import 'package:miniscript/miniscript_types/value_map.dart';
-import 'package:miniscript/miniscript_types/value_string.dart';
+import 'package:miniscript/miniscript.dart';
 import 'package:miniscript/value_pointer.dart';
 
 /// Base class for all MiniScript-wrapped Dart objects.

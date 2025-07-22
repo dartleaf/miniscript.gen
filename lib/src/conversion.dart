@@ -1,8 +1,6 @@
-import 'package:miniscript/miniscript_interpreter.dart';
-import 'package:miniscript/miniscript_tac/context.dart';
-import 'package:miniscript/miniscript_types/function.dart';
-import 'package:miniscript/miniscript_types/helpers.dart';
-import 'package:miniscriptgen/miniscriptgen.dart';
+import 'package:miniscript/miniscript.dart';
+import 'package:miniscriptgen/src/cache.dart';
+import 'package:miniscriptgen/src/base_wrapper.dart';
 
 /// Static utility class for type conversions between Dart and MiniScript.
 ///
@@ -35,8 +33,11 @@ class ConversionUtils {
       return ValString(dartValue);
     }
 
-    if (dartValue is num) {
+    if (dartValue is int) {
       return ValNumber(dartValue.toDouble());
+    }
+    if (dartValue is double) {
+      return ValNumber(dartValue);
     }
 
     if (dartValue is bool) {

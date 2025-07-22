@@ -1,6 +1,5 @@
-import 'package:miniscript/miniscript_interpreter.dart';
-import 'package:miniscript/miniscript_types/function.dart';
-import 'package:miniscriptgen/miniscriptgen.dart';
+import 'package:miniscript/miniscript.dart';
+import 'package:miniscriptgen/src/conversion.dart';
 import 'dart:io';
 
 // Import test models

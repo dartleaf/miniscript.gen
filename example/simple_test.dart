@@ -1,4 +1,4 @@
-import 'package:miniscriptgen/miniscriptgen.dart';
+import 'package:miniscript/miniscript.dart';
 
 import 'models/player.dart';
 import 'models/game.dart';

@@ -7,10 +7,10 @@
 // Generated MiniScript wrappers
 // This file is auto-generated. Do not edit manually.
 
-import "package:miniscript/miniscript_intrinsics/intrinsic.dart";
-import "package:miniscript/miniscript_intrinsics/intrinsic_result.dart";
-import "package:miniscript/miniscript_tac/context.dart";
-import "package:miniscriptgen/miniscriptgen.dart";
+import "package:miniscript/miniscript.dart";
+import "package:miniscriptgen/src/base_wrapper.dart";
+import "package:miniscriptgen/src/conversion.dart";
+import "package:miniscriptgen/src/cache.dart";
 
 import "models.dart";
 
@@ -71,7 +71,7 @@ class TestModelWrapper extends BaseWrapper<TestModel> {
       case "value":
         try {
           var dartValue = ConversionUtils.valueToDart(value);
-          if (dartValue is num) {
+          if (dartValue is int || dartValue is double) {
             this.dartValue.value = dartValue.toInt();
             return true;
           }
@@ -94,7 +94,7 @@ class TestModelWrapper extends BaseWrapper<TestModel> {
       if (newValue == null) {
         return ValString("Missing required argument: newValue");
       }
-      if (newValue is num) newValue = newValue.toInt();
+      if (newValue is int) newValue = newValue.toInt();
       dartValue.setValue(newValue);
       return ValNull.instance;
     }
@@ -382,7 +382,7 @@ class TestResultWrapper extends BaseWrapper<TestResult> {
       case "duration":
         try {
           var dartValue = ConversionUtils.valueToDart(value);
-          if (dartValue is num) {
+          if (dartValue is int || dartValue is double) {
             this.dartValue.duration = dartValue.toInt();
             return true;
           }
@@ -540,7 +540,7 @@ class ComplexTestModelWrapper extends BaseWrapper<ComplexTestModel> {
       case "intValue":
         try {
           var dartValue = ConversionUtils.valueToDart(value);
-          if (dartValue is num) {
+          if (dartValue is int || dartValue is double) {
             this.dartValue.intValue = dartValue.toInt();
             return true;
           }
@@ -551,7 +551,7 @@ class ComplexTestModelWrapper extends BaseWrapper<ComplexTestModel> {
       case "doubleValue":
         try {
           var dartValue = ConversionUtils.valueToDart(value);
-          if (dartValue is num) {
+          if (dartValue is double) {
             this.dartValue.doubleValue = dartValue.toDouble();
             return true;
           }
@@ -626,13 +626,13 @@ class ComplexTestModelWrapper extends BaseWrapper<ComplexTestModel> {
       if (newInt == null) {
         return ValString("Missing required argument: newInt");
       }
-      if (newInt is num) newInt = newInt.toInt();
+      if (newInt is int) newInt = newInt.toInt();
       var newDouble =
           ConversionUtils.valueToDart(context.getLocal("newDouble"));
       if (newDouble == null) {
         return ValString("Missing required argument: newDouble");
       }
-      if (newDouble is num) newDouble = newDouble.toDouble();
+      if (newDouble is double) newDouble = newDouble.toDouble();
       dartValue.updateValues(newName, newInt, newDouble);
       return ValNull.instance;
     }
@@ -698,7 +698,7 @@ class ComplexTestModelWrapper extends BaseWrapper<ComplexTestModel> {
       if (value == null) {
         return ValString("Missing required argument: value");
       }
-      if (value is num) value = value.toInt();
+      if (value is int) value = value.toInt();
       dartValue.setMapValue(key, value);
       return ValNull.instance;
     }
@@ -816,7 +816,7 @@ class PerformanceTestModelWrapper extends BaseWrapper<PerformanceTestModel> {
       case "counter":
         try {
           var dartValue = ConversionUtils.valueToDart(value);
-          if (dartValue is num) {
+          if (dartValue is int || dartValue is double) {
             this.dartValue.counter = dartValue.toInt();
             return true;
           }
@@ -827,7 +827,7 @@ class PerformanceTestModelWrapper extends BaseWrapper<PerformanceTestModel> {
       case "timestamp":
         try {
           var dartValue = ConversionUtils.valueToDart(value);
-          if (dartValue is num) {
+          if (dartValue is double) {
             this.dartValue.timestamp = dartValue.toDouble();
             return true;
           }
@@ -976,7 +976,7 @@ class ErrorTestModelWrapper extends BaseWrapper<ErrorTestModel> {
       case "nonNullableInt":
         try {
           var dartValue = ConversionUtils.valueToDart(value);
-          if (dartValue is num) {
+          if (dartValue is int || dartValue is double) {
             this.dartValue.nonNullableInt = dartValue.toInt();
             return true;
           }
@@ -1026,7 +1026,7 @@ class ErrorTestModelWrapper extends BaseWrapper<ErrorTestModel> {
       if (value == null) {
         return ValString("Missing required argument: value");
       }
-      if (value is num) value = value.toInt();
+      if (value is int) value = value.toInt();
       dartValue.setNonNullableInt(value);
       return ValNull.instance;
     }

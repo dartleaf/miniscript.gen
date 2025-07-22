@@ -7,10 +7,10 @@
 // Generated MiniScript wrappers
 // This file is auto-generated. Do not edit manually.
 
-import "package:miniscript/miniscript_intrinsics/intrinsic.dart";
-import "package:miniscript/miniscript_intrinsics/intrinsic_result.dart";
-import "package:miniscript/miniscript_tac/context.dart";
-import "package:miniscriptgen/miniscriptgen.dart";
+import "package:miniscript/miniscript.dart";
+import "package:miniscriptgen/src/base_wrapper.dart";
+import "package:miniscriptgen/src/conversion.dart";
+import "package:miniscriptgen/src/cache.dart";
 
 import "weapon.dart";
 
@@ -102,7 +102,7 @@ class WeaponWrapper extends BaseWrapper<Weapon> {
       case "damage":
         try {
           var dartValue = ConversionUtils.valueToDart(value);
-          if (dartValue is num) {
+          if (dartValue is int || dartValue is double) {
             this.dartValue.damage = dartValue.toInt();
             return true;
           }
@@ -113,7 +113,7 @@ class WeaponWrapper extends BaseWrapper<Weapon> {
       case "durability":
         try {
           var dartValue = ConversionUtils.valueToDart(value);
-          if (dartValue is num) {
+          if (dartValue is int || dartValue is double) {
             this.dartValue.durability = dartValue.toInt();
             return true;
           }
@@ -124,7 +124,7 @@ class WeaponWrapper extends BaseWrapper<Weapon> {
       case "maxDurability":
         try {
           var dartValue = ConversionUtils.valueToDart(value);
-          if (dartValue is num) {
+          if (dartValue is int || dartValue is double) {
             this.dartValue.maxDurability = dartValue.toInt();
             return true;
           }
@@ -191,7 +191,7 @@ class WeaponWrapper extends BaseWrapper<Weapon> {
       if (amount == null) {
         return ValString("Missing required argument: amount");
       }
-      if (amount is num) amount = amount.toInt();
+      if (amount is int) amount = amount.toInt();
       dartValue.repair(amount);
       return ValNull.instance;
     }
@@ -218,7 +218,7 @@ class WeaponWrapper extends BaseWrapper<Weapon> {
       if (level == null) {
         return ValString("Missing required argument: level");
       }
-      if (level is num) level = level.toInt();
+      if (level is int) level = level.toInt();
       dartValue.addEnchantment(enchantment, level);
       return ValNull.instance;
     }
