@@ -12,7 +12,7 @@ dependencies:
   source_gen: ^1.4.0
   build: ^2.4.0
   analyzer: ^6.11.0
-  miniscriptgenlib: ^0.0.1-alpha6
+  miniscriptgenlib: ^0.0.1-alpha7
   # path: ^1.8.0
 
 dev_dependencies:
