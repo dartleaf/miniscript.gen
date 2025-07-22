@@ -317,7 +317,7 @@ class MiniScriptWrapperGenerator extends Generator {
         final isNullable =
             param.type.nullabilitySuffix == NullabilitySuffix.question;
         buffer.writeln(
-          '      var ${param.name} = ConversionUtils.valueToDart(context.getLocal("${param.name}"));',
+          '      var ${param.name} = ConversionUtils.wrapDynamic(context, ConversionUtils.valueToDart(context.getLocal("${param.name}")));',
         );
         if (!isNullable) {
           buffer.writeln('      if (${param.name} == null) {');
