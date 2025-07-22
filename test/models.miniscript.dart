@@ -8,9 +8,7 @@
 // This file is auto-generated. Do not edit manually.
 
 import "package:miniscript/miniscript.dart";
-import "package:miniscriptgen/src/base_wrapper.dart";
-import "package:miniscriptgen/src/conversion.dart";
-import "package:miniscriptgen/src/cache.dart";
+import "package:miniscriptgen/lib.dart";
 
 import "models.dart";
 
