@@ -7,8 +7,7 @@
 // Generated MiniScript wrappers
 // This file is auto-generated. Do not edit manually.
 
-import "package:miniscript/miniscript.dart";
-import "package:miniscriptgen/lib.dart";
+import "package:miniscriptgenlib/miniscriptgenlib.dart";
 
 import "player.dart";
 

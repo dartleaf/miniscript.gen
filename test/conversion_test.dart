@@ -1,7 +1,7 @@
 import 'package:test/test.dart';
 import 'package:miniscript/miniscript.dart';
 
-import 'package:miniscriptgen/src/conversion.dart';
+import 'package:miniscriptgen/lib.dart';
 
 void main() {
   group('ConversionUtils Tests', () {
